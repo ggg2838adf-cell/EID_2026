@@ -2,574 +2,448 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Eid-Ul-Adha | Royal Cream Luxury | Malik Tanzilla</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Eid-Ul-Adha | Royal Cream Luxury</title>
     <style>
-        /* ----- GLOBAL RESET & VARIABLES (Royal Cream Theme) ----- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none; /* prevents selection glitches during interactions */
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cinzel:wght@500;600;700&family=Montserrat:wght@200;300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
 
         :root {
-            --royal-cream: #FDFBF7;
-            --cream-mid: #F2EBE1;
-            --cream-dark: #E6DBCC;
             --royal-gold: #D4AF37;
             --dark-gold: #9E8024;
-            --champagne: #F5E5C9;
             --espresso: #2A1F1A;
             --mocha: #4A3B32;
             --text-muted: #847568;
-            --glass-bg: rgba(253, 251, 247, 0.55);
+            --glass-bg: rgba(255, 255, 255, 0.45);
             --mx: 0px;
             --my: 0px;
             --mouse-x: 50%;
             --mouse-y: 50%;
-            
-            /* ambient background transition */
-            --bg-day: var(--royal-cream);
-            --bg-mid: #f9f3e8;
-            --bg-night: #1a2a3a;
-            --current-bg: var(--bg-day);
         }
 
+        /* --- ABSOLUTE ANTI-SCROLL FORCE --- */
         html, body {
-            margin: 0;
-            padding: 0;
-            width: 100vw;
-            height: 100dvh;
-            overflow: hidden !important;
-            position: fixed;
-            inset: 0;
-            background-color: #000;
+            margin: 0; padding: 0; width: 100vw; height: 100dvh;
+            overflow: hidden !important; position: fixed; inset: 0;
             font-family: 'Montserrat', sans-serif;
+            color: var(--espresso);
+            -webkit-font-smoothing: antialiased;
             touch-action: none;
-            transition: background-color 2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        body {
+            display: flex; justify-content: center; align-items: center;
             background-color: #000;
         }
-        /* main wrapper appears after intro */
-        #app-main {
-            position: fixed;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            pointer-events: none;
+
+        /* =========================================================
+           CINEMATIC INTRO SEQUENCE (0-6 SECONDS)
+           ========================================================= */
+        #intro-stage {
+            position: absolute; inset: 0; z-index: 9999;
+            background: #000; display: flex; justify-content: center; align-items: center;
+            overflow: hidden; pointer-events: none;
         }
-        body.main-visible #app-main {
-            opacity: 1;
-            pointer-events: auto;
+        
+        #intro-camera {
+            position: absolute; inset: 0;
+            display: flex; justify-content: center; align-items: center;
+            transform: scale(1);
+            animation: cameraZoom 6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        /* KINETIC BACKGROUND + DYNAMIC AMBIENT */
-        .bg-dynamic {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            transition: background 1.5s ease;
-            background: radial-gradient(circle at 30% 20%, var(--royal-cream) 0%, var(--cream-mid) 70%, var(--cream-dark) 100%);
-        }
-        body.ambient-sunrise .bg-dynamic {
-            background: radial-gradient(circle at 40% 30%, #fdeacb 0%, #f5e0b5 50%, #e2cba4 100%);
-        }
-        body.ambient-night .bg-dynamic {
-            background: radial-gradient(circle at 20% 70%, #0f212e 0%, #1e3a4a 60%, #08141c 100%);
-        }
-        .bg-texture {
-            position: absolute;
-            inset: 0;
-            opacity: 0.2;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E");
-            mix-blend-mode: overlay;
-            pointer-events: none;
-        }
-        .vignette {
-            position: absolute;
-            inset: 0;
-            box-shadow: inset 0 0 180px rgba(0,0,0,0.12);
-            pointer-events: none;
+        /* 0-1s: Tiny sparkle */
+        .intro-sparkle {
+            width: 2px; height: 2px; background: #fff; border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255,255,255,0.8);
+            opacity: 0; animation: sparkleBorn 1s ease-in forwards 0.5s;
         }
 
-        /* FLOATING LANTERNS (upper corners) */
+        /* 1-2s: Starfield expands */
+        .intro-starfield {
+            position: absolute; inset: -50%;
+            background-image: radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
+                              radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+                              radial-gradient(1.5px 1.5px at 90px 40px, #fff, rgba(0,0,0,0));
+            background-size: 150px 150px; opacity: 0;
+            animation: fadeInStars 2s ease-out forwards 1.5s;
+        }
+
+        /* 2-4s: Sky turns deep blue, Moon softly emerges with mist */
+        #intro-stage::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to bottom, #0a1128 0%, #000 100%);
+            opacity: 0; animation: skyShift 3s ease-in forwards 2.5s;
+        }
+        .intro-mist {
+            position: absolute; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(162,185,226,0.1) 0%, transparent 70%);
+            opacity: 0; animation: fadeMist 3s ease-out forwards 3s;
+        }
+        .intro-moon {
+            position: absolute; width: 120px; height: 120px;
+            opacity: 0; filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+            animation: moonEmerge 3s ease-out forwards 3.2s;
+        }
+
+        /* 4-5s: Birds crossing */
+        .birds-container {
+            position: absolute; top: 30%; left: -20%; width: 140%; height: 200px;
+        }
+        .bird {
+            position: absolute; width: 40px; height: auto; opacity: 0;
+            fill: #111; filter: drop-shadow(0 5px 5px rgba(255,255,255,0.2));
+        }
+        .bird-1 { top: 20px; animation: flyAcross 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 4.2s; }
+        .bird-2 { top: 60px; width: 30px; animation: flyAcross 4s cubic-bezier(0.4, 0, 0.2, 1) forwards 4.4s; }
+        .bird-3 { top: 10px; width: 50px; animation: flyAcross 3.8s cubic-bezier(0.4, 0, 0.2, 1) forwards 4.6s; }
+
+        /* 5.5s Reveal Wash */
+        #reveal-wash {
+            position: absolute; inset: 0; background: #fff;
+            opacity: 0; z-index: 10;
+            animation: lightWash 1.5s ease-in forwards 5.8s;
+        }
+
+        @keyframes cameraZoom { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
+        @keyframes sparkleBorn { 0% { opacity: 0; transform: scale(0.5); } 100% { opacity: 1; transform: scale(1.2); } }
+        @keyframes fadeInStars { 0% { opacity: 0; } 100% { opacity: 0.6; } }
+        @keyframes skyShift { 0% { opacity: 0; } 100% { opacity: 1; } }
+        @keyframes fadeMist { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes moonEmerge { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes flyAcross { 0% { left: 0%; opacity: 0; transform: translateY(10px) rotate(5deg); } 20% { opacity: 1; } 80% { opacity: 1; } 100% { left: 100%; opacity: 0; transform: translateY(-20px) rotate(-5deg); } }
+        @keyframes lightWash { 0% { opacity: 0; box-shadow: inset 0 0 0px #D4AF37; } 50% { opacity: 1; box-shadow: inset 0 100vh 150px #D4AF37; } 100% { opacity: 0; } }
+
+        /* =========================================================
+           MAIN PAGE & DAY/NIGHT TRANSITION
+           ========================================================= */
+        #main-stage {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            opacity: 0; visibility: hidden;
+            background: linear-gradient(135deg, var(--color-top), var(--color-bot));
+            transition: opacity 1.5s ease; z-index: 1;
+            /* Day/Night 90s Cycle */
+            animation: dayNightCycle 90s ease-in-out infinite alternate;
+        }
+        #main-stage.visible { opacity: 1; visibility: visible; }
+
+        @keyframes dayNightCycle {
+            0%, 15% { /* Early Morning / Cream */
+                --color-top: #FDFBF7; --color-bot: #E6DBCC; color: var(--espresso);
+            }
+            45%, 55% { /* Sunrise / Sunset */
+                --color-top: #F5E5C9; --color-bot: #D4AF37; color: var(--espresso);
+            }
+            85%, 100% { /* Soft Moonlit Blue */
+                --color-top: #1A2436; --color-bot: #0D1321; color: #FDFBF7;
+            }
+        }
+
+        /* --- Interactive Moon --- */
+        #interactive-moon {
+            position: absolute; top: 8%; right: 8%; width: 80px; height: 80px;
+            cursor: pointer; z-index: 5;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
+            animation: floatMoon 6s ease-in-out infinite alternate;
+        }
+        #interactive-moon:hover { filter: drop-shadow(0 0 35px rgba(212, 175, 55, 0.8)); transform: scale(1.05); }
+        #interactive-moon:active { transform: scale(0.95); }
+        @keyframes floatMoon { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
+
+        /* --- Floating Lanterns --- */
         .lantern {
-            position: absolute;
-            width: 80px;
-            height: 100px;
-            opacity: 0.35;
-            filter: blur(1.2px);
-            transition: opacity 4s ease;
-            pointer-events: none;
-            z-index: 2;
-            animation: floatLantern 18s infinite alternate ease-in-out;
+            position: absolute; width: 45px; opacity: 0.4; z-index: 2;
+            animation: driftLantern 25s ease-in-out infinite alternate;
         }
-        @keyframes floatLantern {
-            0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
-            100% { transform: translateY(25px) translateX(12px) rotate(6deg); }
-        }
-        .lantern svg {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 0 12px rgba(212,175,55,0.3));
+        .lant-1 { top: 15%; left: 10%; animation-delay: 0s; }
+        .lant-2 { top: 25%; right: 20%; animation-delay: -5s; width: 35px; }
+        .lant-3 { top: 40%; left: 5%; animation-delay: -12s; width: 55px; }
+        @keyframes driftLantern {
+            0% { transform: translate(0, 0) rotate(-3deg); }
+            100% { transform: translate(30px, -40px) rotate(3deg); }
         }
 
-        /* GOLDEN CURSOR TRAIL SYSTEM */
-        .gold-trail-particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #FFD966, #D4AF37);
-            filter: blur(1px);
-            opacity: 0.8;
-            animation: fadeTrail 0.8s ease-out forwards;
-        }
-        @keyframes fadeTrail {
-            0% { transform: scale(1); opacity: 0.9; }
-            100% { transform: scale(0.2); opacity: 0; }
-        }
+        /* --- Canvas FX --- */
+        #fx-canvas { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
 
-        /* CRESCENT MOON INTERACTIVE */
-        .moon-interactive {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            width: 70px;
-            height: 70px;
-            cursor: pointer;
-            z-index: 20;
-            transition: filter 0.3s ease, transform 0.2s;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        /* --- Luxury Panel & Name Box --- */
+        .luxury-panel {
+            position: relative; z-index: 10;
+            background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border-radius: 24px; padding: 4.5rem 3.5rem; text-align: center;
+            width: 90%; max-width: 520px;
+            box-shadow: 0 40px 80px rgba(0,0,0, 0.1), inset 0 2px 20px rgba(255,255,255,0.4);
+            transform: translateY(40px) scale(0.96) translate(calc(var(--mx) * 0.4), calc(var(--my) * 0.4));
+            opacity: 0; transition: color 5s ease;
         }
-        .moon-interactive:hover {
-            filter: drop-shadow(0 0 14px var(--royal-gold));
-            transform: scale(1.02);
-        }
-        .moon-interactive:active {
-            transform: scale(0.97);
-        }
+        .luxury-panel.reveal { animation: panelReveal 2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s; }
+        @keyframes panelReveal { 100% { opacity: 1; transform: translateY(0) scale(1) translate(calc(var(--mx)*0.4), calc(var(--my)*0.4)); } }
 
-        /* NAME BOX (LUXURY + FLOWER BURST) */
-        .name-box-enhanced {
-            position: relative;
-            padding: 2.5rem 4.8rem;
-            margin-bottom: 35px;
-            background: linear-gradient(135deg, rgba(253,251,247,0.9) 0%, rgba(245,229,201,0.5) 100%);
-            border: 1px solid rgba(212,175,55,0.7);
-            box-shadow: 0 30px 50px rgba(42,31,26,0.1), inset 0 0 40px rgba(212,175,55,0.2);
-            border-radius: 12px;
-            backdrop-filter: blur(18px);
-            transition: all 0.4s;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+        .arabic-title {
+            font-family: 'Amiri', serif; font-size: clamp(3rem, 6vw, 4.5rem); font-weight: 700; margin-bottom: 12px;
+            background: linear-gradient(110deg, var(--royal-gold) 0%, #fff 50%, var(--royal-gold) 100%);
+            background-size: 200% auto; color: transparent; -webkit-background-clip: text; animation: sweep 8s linear infinite;
         }
-        .name-box-enhanced::before {
-            content: '';
-            position: absolute;
-            inset: 6px;
-            border: 1px solid rgba(212,175,55,0.5);
-            border-radius: 8px;
-        }
-        .flower-burst {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-            border-radius: 12px;
-        }
-        .flower-particle {
-            position: absolute;
-            width: 22px;
-            height: 22px;
-            background: radial-gradient(circle, #FFB347, #FFD966);
-            clip-path: path("M12,2 L15,9 L22,9 L16,14 L18,21 L12,17 L6,21 L8,14 L2,9 L9,9 Z");
-            opacity: 0;
-            animation: bloomFlower 1s ease-out forwards;
-        }
-        @keyframes bloomFlower {
-            0% { transform: scale(0) rotate(0deg); opacity: 0; }
-            40% { opacity: 0.9; transform: scale(1.2) rotate(15deg); }
-            100% { transform: scale(1.6) rotate(40deg); opacity: 0; }
+        .subtitle { font-size: 0.65rem; letter-spacing: 1.1em; font-weight: 500; margin-bottom: 30px; text-transform: uppercase; }
+
+        /* Name Box & Flowers */
+        .name-box-wrapper { position: relative; margin-bottom: 35px; display: inline-block; }
+        .name-box {
+            position: relative; padding: 2rem 4rem;
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(212, 175, 55, 0.6);
+            backdrop-filter: blur(10px); border-radius: 8px; z-index: 5;
         }
         .main-name {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(2rem, 6vw, 4rem);
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            background: linear-gradient(120deg, var(--espresso) 0%, var(--dark-gold) 40%, var(--royal-gold) 60%, var(--mocha) 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: sweepGold 7s linear infinite;
+            font-family: 'Cinzel', serif; font-size: clamp(1.8rem, 5.5vw, 4.2rem); font-weight: 700;
+            letter-spacing: 0.16em; margin: 0; white-space: nowrap; color: inherit; text-shadow: 0 4px 15px rgba(212,175,55,0.4);
         }
-        @keyframes sweepGold {
-            0% { background-position: 200% center; }
-            100% { background-position: -200% center; }
+        
+        .flower-ornament {
+            position: absolute; width: 60px; height: 60px; z-index: 6; pointer-events: none;
+            opacity: 0; transform: scale(0) rotate(-45deg);
         }
-
-        /* GUEST MESSAGE BOOK (FLOATING CARDS) */
-        .guest-book {
-            position: fixed;
-            bottom: 30px;
-            right: 25px;
-            z-index: 25;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 12px;
-            pointer-events: none;
+        .name-box-wrapper.bloom .flower-ornament {
+            animation: bloomVanish 6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-        .msg-card {
-            max-width: 280px;
-            background: rgba(255,255,245,0.85);
-            backdrop-filter: blur(20px);
-            border-radius: 40px 12px 40px 12px;
-            padding: 12px 20px;
-            font-family: 'Playfair Display', serif;
-            font-size: 0.85rem;
-            font-style: italic;
-            color: var(--espresso);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,200,0.9);
-            border-left: 4px solid var(--royal-gold);
-            animation: slideUpCard 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
-            transform-origin: right bottom;
-            pointer-events: none;
-            opacity: 0;
-        }
-        @keyframes slideUpCard {
-            0% { opacity: 0; transform: translateY(50px) scale(0.9); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
+        .flower-tl { top: -25px; left: -25px; }
+        .flower-br { bottom: -25px; right: -25px; transform: scale(-1, -1) rotate(-45deg); }
+        @keyframes bloomVanish {
+            0% { opacity: 0; transform: scale(0) rotate(-45deg); }
+            15%, 80% { opacity: 1; transform: scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: scale(0.5) rotate(45deg); }
         }
 
-        /* LUXURY PANEL */
-        .luxury-panel {
-            position: relative;
-            z-index: 15;
-            background: var(--glass-bg);
-            backdrop-filter: blur(50px);
-            border-radius: 32px;
-            padding: 3rem 2rem 2.5rem;
-            text-align: center;
-            width: 90%;
-            max-width: 560px;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.1), inset 0 1px 3px rgba(255,255,240,0.8);
-            transition: all 0.2s;
+        /* --- Guest Message Book (Floating Cards) --- */
+        #message-book {
+            position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden;
         }
-        .layer {
-            transform: translate(calc(var(--mx) * var(--depth, 0.2)), calc(var(--my) * var(--depth, 0.2)));
-            transition: transform 0.08s linear;
+        .guest-card {
+            position: absolute; bottom: -100px;
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(212,175,55,0.3);
+            backdrop-filter: blur(8px); border-radius: 12px;
+            padding: 15px 25px; font-family: 'Playfair Display', serif; font-style: italic;
+            font-size: 0.9rem; color: inherit; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: floatUp 12s linear forwards;
         }
-        .arabic-title {
-            font-family: 'Amiri', serif;
-            font-size: clamp(2.8rem, 7vw, 4rem);
-            background: linear-gradient(135deg, var(--dark-gold), var(--royal-gold), #FFE4A0);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(-2deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(2deg); opacity: 0; }
         }
-        .subtitle, .date-row, .message {
-            letter-spacing: 0.1em;
-        }
-        /* audio button */
-        .music-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,240,0.8);
-            backdrop-filter: blur(12px);
-            border-radius: 60px;
-            padding: 8px 20px;
-            border: 1px solid var(--royal-gold);
-            z-index: 100;
-            cursor: pointer;
-            font-size: 0.7rem;
-            font-weight: 600;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        /* canvas fx */
-        #fx-canvas {
-            position: absolute;
-            inset: 0;
-            z-index: 4;
-            pointer-events: none;
-        }
-
-        /* INTRO STYLES (preserved cinematic) */
-        #cinematic-intro {
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            background: #000;
-            transition: opacity 1.8s cubic-bezier(0.4,0,0.2,1);
-        }
-        /* we include star/moon from previous but simplified */
-        .star-bg { position: absolute; background: white; border-radius: 50%; }
+        
+        .layer { transform: translate(calc(var(--mx) * var(--depth)), calc(var(--my) * var(--depth))); transition: transform 0.1s linear; }
+        @keyframes sweep { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cinzel:wght@500;700&family=Montserrat:wght@300;500&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- CINEMATIC INTRO (Enhanced) -->
-<div id="cinematic-intro">
-    <div id="zoom-container" style="position:absolute; inset:0; transition:transform 3s cubic-bezier(0.2,0.9,0.1,1); transform-origin:center center;">
-        <div id="hero-star" style="position:absolute; top:50%; left:50%; width:4px; height:4px; background:white; border-radius:50%; transform:translate(-50%,-50%); opacity:0; box-shadow:0 0 12px gold;"></div>
-    </div>
-</div>
-
-<div id="app-main">
-    <div class="bg-dynamic" id="ambient-bg"></div>
-    <div class="bg-texture"></div>
-    <div class="vignette"></div>
-    <canvas id="fx-canvas"></canvas>
-    
-    <!-- Floating Lanterns (only 4) -->
-    <div class="lantern" style="top:5%; left:2%; width:70px; animation-duration: 22s;"><svg viewBox="0 0 100 120"><path fill="#D4AF37" opacity="0.6" d="M50,10 L70,45 L65,90 L35,90 L30,45 Z" /><ellipse cx="50" cy="95" rx="20" ry="6" fill="#9E8024"/><line x1="50" y1="10" x2="50" y2="-8" stroke="#D4AF37" stroke-width="2"/></svg></div>
-    <div class="lantern" style="top:12%; right:3%; width:85px; animation-duration: 26s; animation-delay: -3s;"><svg viewBox="0 0 100 120"><path fill="#D4AF37" opacity="0.5" d="M50,10 L70,45 L65,90 L35,90 L30,45 Z" /><ellipse cx="50" cy="95" rx="20" ry="6" fill="#9E8024"/></svg></div>
-    <div class="lantern" style="bottom:18%; left:4%; width:65px; animation-duration: 30s; animation-delay: -8s;"><svg viewBox="0 0 100 120"><path fill="#E6C87D" opacity="0.5" d="M50,10 L70,45 L65,90 L35,90 L30,45 Z" /></svg></div>
-    <div class="lantern" style="top:40%; right:5%; width:72px; animation-duration: 28s;"><svg viewBox="0 0 100 120"><path fill="#D4AF37" opacity="0.45" d="M50,10 L70,45 L65,90 L35,90 L30,45 Z" /></svg></div>
-
-    <!-- Interactive Crescent Moon -->
-    <div class="moon-interactive" id="interactiveMoon">
-        <svg viewBox="0 0 100 100"><mask id="cresMask"><rect width="100" height="100" fill="white"/><circle cx="65" cy="35" r="48" fill="black"/></mask><circle cx="50" cy="50" r="46" fill="url(#silverGrad)" mask="url(#cresMask)" filter="drop-shadow(0 0 5px gold)"/><defs><radialGradient id="silverGrad"><stop offset="0%" stop-color="#f5f0e0"/><stop offset="80%" stop-color="#D4AF37"/></radialGradient></defs></svg>
+    <!-- ==========================================
+         PHASE 1: CINEMATIC INTRO STAGE
+         ========================================== -->
+    <div id="intro-stage">
+        <div id="intro-camera">
+            <div class="intro-starfield"></div>
+            <div class="intro-sparkle"></div>
+            <div class="intro-mist"></div>
+            <svg class="intro-moon" viewBox="0 0 100 100">
+                <path d="M70,20 A40,40 0 1,0 80,80 A50,50 0 1,1 70,20 Z" fill="#fff" />
+            </svg>
+            <div class="birds-container">
+                <svg class="bird bird-1" viewBox="0 0 100 100"><path d="M10,50 Q30,20 50,50 Q70,20 90,50 Q70,60 50,50 Q30,60 10,50 Z"/></svg>
+                <svg class="bird bird-2" viewBox="0 0 100 100"><path d="M10,50 Q30,20 50,50 Q70,20 90,50 Q70,60 50,50 Q30,60 10,50 Z"/></svg>
+                <svg class="bird bird-3" viewBox="0 0 100 100"><path d="M10,50 Q30,20 50,50 Q70,20 90,50 Q70,60 50,50 Q30,60 10,50 Z"/></svg>
+            </div>
+        </div>
+        <div id="reveal-wash"></div>
     </div>
 
-    <!-- Guest Book Messages (Floating Cards) -->
-    <div class="guest-book" id="guestMessagesContainer"></div>
+    <!-- ==========================================
+         PHASE 2: MAIN STAGE
+         ========================================== -->
+    <div id="main-stage">
+        <!-- Drifting Lanterns -->
+        <svg class="lantern lant-1" viewBox="0 0 50 80"><rect x="15" y="10" width="20" height="40" fill="rgba(212,175,55,0.4)" rx="5"/><path d="M10,10 L40,10 L35,5 L15,5 Z" fill="#D4AF37"/><line x1="25" y1="50" x2="25" y2="70" stroke="#D4AF37" stroke-width="2"/><circle cx="25" cy="30" r="5" fill="#FFF" filter="blur(2px)"/></svg>
+        <svg class="lantern lant-2" viewBox="0 0 50 80"><rect x="15" y="10" width="20" height="40" fill="rgba(212,175,55,0.4)" rx="5"/><path d="M10,10 L40,10 L35,5 L15,5 Z" fill="#D4AF37"/><line x1="25" y1="50" x2="25" y2="70" stroke="#D4AF37" stroke-width="2"/><circle cx="25" cy="30" r="5" fill="#FFF" filter="blur(2px)"/></svg>
+        <svg class="lantern lant-3" viewBox="0 0 50 80"><rect x="15" y="10" width="20" height="40" fill="rgba(212,175,55,0.4)" rx="5"/><path d="M10,10 L40,10 L35,5 L15,5 Z" fill="#D4AF37"/><line x1="25" y1="50" x2="25" y2="70" stroke="#D4AF37" stroke-width="2"/><circle cx="25" cy="30" r="5" fill="#FFF" filter="blur(2px)"/></svg>
 
-    <!-- Audio Toggle -->
-    <button class="music-btn" id="audio-toggle"><span class="icon">🔊</span><span class="text">Unmute</span></button>
+        <!-- Interactive Moon -->
+        <svg id="interactive-moon" viewBox="0 0 100 100">
+            <path d="M65,15 A40,40 0 1,0 85,75 A45,45 0 1,1 65,15 Z" fill="#D4AF37" />
+        </svg>
 
-    <!-- Main Luxury Panel -->
-    <div style="display: flex; justify-content: center; align-items: center; height: 100%; width: 100%;">
-        <div class="luxury-panel" id="presenterCard">
-            <div class="layer" style="--depth:0.1;"><h1 class="arabic-title">عيد الأضحى المبارك</h1></div>
-            <div class="layer" style="--depth:0.15;"><h2 class="subtitle">EID-UL-ADHA</h2></div>
-            <div class="layer" style="--depth:0.2;"><div class="date-row">27 May 2026 <span style="color:var(--royal-gold)">✦</span> ١٠ ذو الحجة ١٤٤٧ هـ</div></div>
-            <div class="layer" style="--depth:0.0;">
-                <div class="name-box-enhanced" id="nameBox">
-                    <div class="flower-burst" id="flowerBurstArea"></div>
-                    <h1 class="main-name">MALIK TANZILLA</h1>
+        <!-- Floating Messages Container -->
+        <div id="message-book"></div>
+
+        <canvas id="fx-canvas"></canvas>
+
+        <main class="luxury-panel" id="presenter-card">
+            <div class="layer" style="--depth: 0.15;">
+                <h1 class="arabic-title">عيد الأضحى المبارك</h1>
+            </div>
+            <div class="layer" style="--depth: 0.25;">
+                <h2 class="subtitle">EID-UL-ADHA</h2>
+            </div>
+
+            <div class="layer" style="--depth: 0.0;">
+                <div class="name-box-wrapper" id="name-box-ctrl">
+                    <!-- Blooming Flowers -->
+                    <svg class="flower-ornament flower-tl" viewBox="0 0 100 100">
+                        <path d="M50,50 Q20,20 50,0 Q80,20 50,50 Q80,80 50,100 Q20,80 50,50 Z M50,50 Q20,80 0,50 Q20,20 50,50 Q80,20 100,50 Q80,80 50,50 Z" fill="rgba(212,175,55,0.6)"/>
+                        <circle cx="50" cy="50" r="8" fill="#fff"/>
+                    </svg>
+                    <svg class="flower-ornament flower-br" viewBox="0 0 100 100">
+                        <path d="M50,50 Q20,20 50,0 Q80,20 50,50 Q80,80 50,100 Q20,80 50,50 Z M50,50 Q20,80 0,50 Q20,20 50,50 Q80,20 100,50 Q80,80 50,50 Z" fill="rgba(212,175,55,0.6)"/>
+                        <circle cx="50" cy="50" r="8" fill="#fff"/>
+                    </svg>
+                    
+                    <div class="name-box">
+                        <h1 class="main-name">MALIK TANZILLA</h1>
+                    </div>
                 </div>
             </div>
-            <div class="layer" style="--depth:0.12;"><p class="message">Wishing you a beautiful day filled with joy, gratitude, and special moments.</p></div>
-        </div>
+            <div class="layer" style="--depth: 0.2;">
+                <p style="font-family:'Playfair Display',serif; font-style:italic; font-size:0.9rem; opacity:0.8;">Wishing you a beautiful day filled with joy, gratitude, and special moments.</p>
+            </div>
+        </main>
     </div>
-</div>
 
-<script>
-    (function(){
-        // ---------- CINEMATIC INTRO LOGIC (birds & moon & gold reveal) ----------
-        const introDiv = document.getElementById('cinematic-intro');
-        const zoomContainer = document.getElementById('zoom-container');
-        const heroStar = document.getElementById('hero-star');
-        let revealTriggered = false;
-        
-        // generate background starfield
-        for(let i=0;i<160;i++){
-            let star = document.createElement('div');
-            star.className = 'star-bg';
-            let size = Math.random()*2+0.5;
-            star.style.width=size+'px'; star.style.height=size+'px';
-            star.style.position='absolute';
-            star.style.left=Math.random()*100+'%';
-            star.style.top=Math.random()*100+'%';
-            star.style.opacity=Math.random()*0.6+0.1;
-            star.style.backgroundColor='white';
-            star.style.borderRadius='50%';
-            zoomContainer.appendChild(star);
-        }
-        setTimeout(()=>{ heroStar.style.opacity='1'; heroStar.style.boxShadow='0 0 12px gold'; },100);
-        setTimeout(()=>{ zoomContainer.style.transform='scale(1.6) translate(-2%, -1%)'; },1000);
-        setTimeout(()=>{
-            document.querySelectorAll('.star-bg').forEach(s=>{ s.style.opacity=Math.min(parseFloat(s.style.opacity)+0.4,0.9); });
-        },2000);
-        // moon emergence
-        let moonSvg = `<div id="cinematicMoon" style="position:absolute; top:55%; left:50%; width:180px; height:180px; transform:translate(-50%,-50%) scale(0.6); opacity:0; transition:all 2s ease;"><svg viewBox="0 0 100 100"><mask id="m2"><rect width="100" height="100" fill="white"/><circle cx="65" cy="35" r="46" fill="black"/></mask><circle cx="50" cy="50" r="44" fill="#e0e5ec" mask="url(#m2)"/><circle cx="45" cy="45" r="8" fill="#ccc" opacity="0.2"/></svg></div>`;
-        zoomContainer.insertAdjacentHTML('beforeend', moonSvg);
-        setTimeout(()=>{
-            let moonDiv = document.getElementById('cinematicMoon');
-            if(moonDiv){ moonDiv.style.opacity='1'; moonDiv.style.transform='translate(-50%,-50%) scale(1)'; }
-        },3000);
-        // birds generation (3 birds, last triggers reveal)
-        function createBird(startX, startY, endX, speed, delay, isLast=false){
-            let bird = document.createElement('div');
-            bird.style.position='absolute';
-            bird.style.fontSize='26px';
-            bird.style.left=startX+'%'; bird.style.top=startY+'%';
-            bird.style.opacity='0'; bird.style.transition='opacity 0.4s';
-            bird.innerHTML = '🕊️'; // bird symbol
-            bird.style.filter='drop-shadow(0 2px 3px rgba(0,0,0,0.1))';
-            zoomContainer.appendChild(bird);
-            setTimeout(()=>{ bird.style.opacity='0.9'; let pos=startX; let step = (endX-startX)/(100/(speed*60)); let interval = setInterval(()=>{ pos+=step; bird.style.left=pos+'%'; if(pos>=endX){ clearInterval(interval); bird.style.opacity='0'; if(isLast && !revealTriggered){ triggerReveal(); } } },35); }, delay);
-        }
-        function triggerReveal(){
-            if(revealTriggered) return;
-            revealTriggered=true;
-            // gold trail & moonlight wash effect
-            let trailDiv = document.createElement('div');
-            trailDiv.style.position='fixed'; trailDiv.style.inset=0; trailDiv.style.background='radial-gradient(circle, rgba(212,175,55,0.4) 0%, transparent 70%)'; trailDiv.style.opacity='0'; trailDiv.style.transition='opacity 0.9s'; trailDiv.style.pointerEvents='none'; trailDiv.style.zIndex='250';
-            document.body.appendChild(trailDiv);
-            setTimeout(()=>{ trailDiv.style.opacity='1'; },50);
-            setTimeout(()=>{ 
-                let wash = document.createElement('div');
-                wash.style.position='fixed'; wash.style.inset=0; wash.style.background='linear-gradient(to bottom, rgba(212,175,55,0.2), #FDFBF7 90%)'; wash.style.opacity='0'; wash.style.transition='opacity 1.2s'; wash.style.zIndex='251';
-                document.body.appendChild(wash);
-                setTimeout(()=>{ wash.style.opacity='1'; },30);
-                setTimeout(()=>{ 
-                    document.body.classList.add('main-visible');
-                    introDiv.style.opacity='0';
-                    setTimeout(()=>{ introDiv.style.display='none'; },2000);
-                }, 900);
-            }, 400);
-        }
-        setTimeout(()=>{
-            createBird(-5, 32, 115, 0.65, 200, false);
-            createBird(-8, 45, 118, 0.5, 700, false);
-            createBird(-3, 52, 122, 0.45, 1300, true);
-        },4000);
-        setTimeout(()=>{ if(!revealTriggered) triggerReveal(); },8000);
-        
-        // ---------- MAIN PAGE INTERACTIVITY ----------
-        // Golden Cursor Trail
-        let trailActive = true;
+    <script>
+        // --- TIMELINE CONTROLLER ---
+        window.addEventListener("DOMContentLoaded", () => {
+            // Intro tear down & main stage reveal based on CSS timing (6.5s)
+            setTimeout(() => {
+                document.getElementById('intro-stage').remove();
+                document.getElementById('main-stage').classList.add('visible');
+                document.getElementById('presenter-card').classList.add('reveal');
+                
+                // Trigger flower bloom slightly after reveal
+                setTimeout(() => {
+                    document.getElementById('name-box-ctrl').classList.add('bloom');
+                }, 800);
+
+                // Start Guest Message Loop
+                startMessageBook();
+            }, 6800);
+        });
+
+        // --- PARALLAX MATRIX ---
         document.addEventListener('mousemove', (e) => {
-            if(!trailActive) return;
-            let particle = document.createElement('div');
-            particle.className = 'gold-trail-particle';
-            particle.style.left = (e.clientX - 3) + 'px';
-            particle.style.top = (e.clientY - 3) + 'px';
-            document.body.appendChild(particle);
-            setTimeout(()=>{ particle.remove(); }, 800);
-            // also tiny stars on move
-            if(Math.random()>0.85){
-                let starParticle = document.createElement('div');
-                starParticle.style.position='fixed';
-                starParticle.style.left=(e.clientX-2)+'px'; starParticle.style.top=(e.clientY-2)+'px';
-                starParticle.style.width='4px'; starParticle.style.height='4px';
-                starParticle.style.background='radial-gradient(circle, #FFE484, #D4AF37)';
-                starParticle.style.borderRadius='50%';
-                starParticle.style.pointerEvents='none';
-                starParticle.style.zIndex='9999';
-                starParticle.style.animation='fadeTrail 0.6s forwards';
-                document.body.appendChild(starParticle);
-                setTimeout(()=>starParticle.remove(), 600);
-            }
+            const x = (e.clientX / window.innerWidth - 0.5) * 30; 
+            const y = (e.clientY / window.innerHeight - 0.5) * 30;
+            document.documentElement.style.setProperty('--mx', `${x}px`);
+            document.documentElement.style.setProperty('--my', `${y}px`);
         });
-        // Flower burst upon name box opening (vanishing after)
-        const nameBoxDiv = document.getElementById('nameBox');
-        const flowerContainer = document.getElementById('flowerBurstArea');
-        function burstFlowers(){
-            for(let i=0;i<24;i++){
-                let fl = document.createElement('div');
-                fl.classList.add('flower-particle');
-                let angle = Math.random() * Math.PI * 2;
-                let radius = Math.random() * 100 + 30;
-                let left = 50 + Math.cos(angle)*radius;
-                let top = 50 + Math.sin(angle)*radius;
-                fl.style.left = left+'%';
-                fl.style.top = top+'%';
-                fl.style.position='absolute';
-                fl.style.width='18px'; fl.style.height='18px';
-                fl.style.background='radial-gradient(circle, #FADB67, #D4AF37)';
-                fl.style.clipPath = 'path("M12,2 L15,9 L22,9 L16,14 L18,21 L12,17 L6,21 L8,14 L2,9 L9,9 Z")';
-                fl.style.opacity='0.9';
-                flowerContainer.appendChild(fl);
-                setTimeout(()=>{ fl.remove(); }, 1000);
-            }
+
+        // --- GUEST MESSAGE BOOK (Floating Cards) ---
+        const messages = [
+            "May your plate be always full of mutton! 🥩",
+            "Wishing you endless blessings today! ✨",
+            "Eid Mubarak to you and your loved ones! 🌙",
+            "May this Eid bring peace and prosperity. 🕊️",
+            "Sending love and warm wishes your way! ❤️"
+        ];
+        
+        function startMessageBook() {
+            const container = document.getElementById('message-book');
+            setInterval(() => {
+                const card = document.createElement('div');
+                card.className = 'guest-card';
+                card.innerText = messages[Math.floor(Math.random() * messages.length)];
+                
+                // Randomize horizontal starting position (10% to 80% width)
+                card.style.left = `${Math.random() * 70 + 10}%`;
+                container.appendChild(card);
+                
+                // Cleanup after animation
+                setTimeout(() => card.remove(), 12500);
+            }, 5000); // Spawns a new message every 5 seconds
         }
-        setTimeout(()=>{ burstFlowers(); }, 800);
-        nameBoxDiv.addEventListener('click', (e)=>{ if(e.target===nameBoxDiv || nameBoxDiv.contains(e.target)) burstFlowers(); });
-        
-        // Guest messages appear dynamically (popup cards)
-        const messagesList = ["🌙 MAY YOUR PLATE BE ALWAYS FULL OF MUTTON", "✨ Blessed Eid, Malik! Joy and peace", "🕌 Taqabbal Allahu minna wa minkum", "🍖 Eid Mubarak! Keep generosity alive", "🌟 May your sacrifices bring light"];
-        let msgIndex=0;
-        function addGuestMessage(){
-            let container = document.getElementById('guestMessagesContainer');
-            let card = document.createElement('div');
-            card.className = 'msg-card';
-            card.innerText = messagesList[msgIndex % messagesList.length];
-            container.appendChild(card);
-            setTimeout(()=>{ card.style.opacity='1'; },20);
-            setTimeout(()=>{ card.remove(); }, 6000);
-            msgIndex++;
-        }
-        setInterval(addGuestMessage, 13000);
-        addGuestMessage(); // initial
-        
-        // Ambient day/night transition (over 90 secs loop)
-        let ambientPhase = 0;
-        setInterval(()=>{
-            ambientPhase = (ambientPhase+1)%3;
-            if(ambientPhase===0) document.body.classList.remove('ambient-sunrise','ambient-night');
-            else if(ambientPhase===1) document.body.classList.add('ambient-sunrise');
-            else document.body.classList.add('ambient-night');
-        }, 70000);
-        
-        // Interactive Moon: hover glow, click -> scatter stars, long press pulse
-        const moonElem = document.getElementById('interactiveMoon');
-        moonElem.addEventListener('click', (e)=>{
-            e.stopPropagation();
-            for(let i=0;i<16;i++){
-                let starFly = document.createElement('div');
-                starFly.style.position='fixed';
-                starFly.style.left = (e.clientX + (Math.random()*60-30))+'px';
-                starFly.style.top = (e.clientY + (Math.random()*60-30))+'px';
-                starFly.style.width='5px'; starFly.style.height='5px';
-                starFly.style.background='#FFD966';
-                starFly.style.borderRadius='50%';
-                starFly.style.pointerEvents='none';
-                starFly.style.zIndex='10000';
-                starFly.style.boxShadow='0 0 6px gold';
-                starFly.style.animation='fadeTrail 0.5s forwards';
-                document.body.appendChild(starFly);
-                setTimeout(()=>starFly.remove(),500);
-            }
-        });
-        let pressTimer;
-        moonElem.addEventListener('touchstart', (e)=>{ pressTimer = setTimeout(()=>{ moonElem.style.transform='scale(1.1)'; setTimeout(()=>{ moonElem.style.transform=''; },300); },300); });
-        moonElem.addEventListener('touchend', ()=>{ clearTimeout(pressTimer); });
-        
-        // Audio element
-        const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-        audio.loop=true; audio.volume=0.4;
-        const audioBtn = document.getElementById('audio-toggle');
-        let playing=false;
-        audioBtn.addEventListener('click', ()=>{
-            if(!playing){ audio.play().then(()=>{ playing=true; audioBtn.innerHTML='<span class="icon">♫</span><span class="text">Playing</span>'; }).catch(e=>console.log); }
-            else { audio.pause(); playing=false; audioBtn.innerHTML='<span class="icon">🔊</span><span class="text">Unmute</span>'; }
-        });
-        
-        // Parallax & mouse light coupling
-        document.addEventListener('mousemove', (e)=>{
-            let x = (e.clientX/window.innerWidth-0.5)*28;
-            let y = (e.clientY/window.innerHeight-0.5)*28;
-            document.documentElement.style.setProperty('--mx', x+'px');
-            document.documentElement.style.setProperty('--my', y+'px');
-        });
-        
-        // canvas dust & sparkles + fireworks
+
+        // --- CANVAS ENGINE: GOLDEN CURSOR TRAIL & FIREWORKS ---
         const canvas = document.getElementById('fx-canvas');
         const ctx = canvas.getContext('2d');
-        function resizeCanvas(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
-        window.addEventListener('resize',resizeCanvas); resizeCanvas();
-        let dusts=[], sparkles=[];
-        for(let i=0;i<50;i++) dusts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, size:Math.random()*2+0.5, alpha:Math.random()*0.4, vx:(Math.random()-0.5)*0.2, vy:(Math.random()-0.5)*0.1});
-        function animateFX(){ if(!ctx) return; ctx.clearRect(0,0,canvas.width,canvas.height); dusts.forEach(d=>{ d.x+=d.vx; d.y+=d.vy; if(d.x<0)d.x=canvas.width; if(d.x>canvas.width)d.x=0; if(d.y<0)d.y=canvas.height; if(d.y>canvas.height)d.y=0; ctx.beginPath(); ctx.arc(d.x,d.y,d.size,0,Math.PI*2); ctx.fillStyle=`rgba(212,175,55,${d.alpha*0.5})`; ctx.fill(); }); requestAnimationFrame(animateFX); }
-        animateFX();
-    })();
-</script>
+        let width, height;
+        let particles = [];
+        let mouse = { x: -100, y: -100 };
+
+        function setBounds() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', setBounds);
+        setBounds();
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX; mouse.y = e.clientY;
+            // Spawn cursor trail particles
+            for(let i=0; i<2; i++) particles.push(new TrailParticle(mouse.x, mouse.y));
+        });
+
+        // Types of particles: 0 = circle, 1 = star, 2 = crescent
+        class TrailParticle {
+            constructor(x, y, isExplosion = false) {
+                this.x = x + (Math.random() - 0.5) * 20;
+                this.y = y + (Math.random() - 0.5) * 20;
+                this.size = Math.random() * 3 + 1;
+                this.vx = (Math.random() - 0.5) * (isExplosion ? 8 : 2);
+                this.vy = (Math.random() - 0.5) * (isExplosion ? 8 : 2) + (isExplosion ? 2 : -0.5);
+                this.life = 1;
+                this.decay = Math.random() * 0.02 + 0.015;
+                this.type = Math.floor(Math.random() * 3);
+                this.angle = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.2;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                this.angle += this.rotSpeed;
+                this.life -= this.decay;
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.globalAlpha = Math.max(0, this.life);
+                ctx.fillStyle = '#D4AF37';
+                ctx.shadowBlur = 10; ctx.shadowColor = '#D4AF37';
+
+                if(this.type === 0) { // Dot
+                    ctx.beginPath(); ctx.arc(0,0, this.size, 0, Math.PI*2); ctx.fill();
+                } else if(this.type === 1) { // Star
+                    ctx.beginPath();
+                    for(let i=0; i<5; i++){
+                        ctx.lineTo(Math.cos((18+i*72)*Math.PI/180)*this.size*1.5, -Math.sin((18+i*72)*Math.PI/180)*this.size*1.5);
+                        ctx.lineTo(Math.cos((54+i*72)*Math.PI/180)*this.size*0.6, -Math.sin((54+i*72)*Math.PI/180)*this.size*0.6);
+                    }
+                    ctx.closePath(); ctx.fill();
+                } else { // Crescent
+                    ctx.beginPath(); ctx.arc(0,0, this.size*1.2, 0, Math.PI*2);
+                    ctx.fillStyle = '#D4AF37'; ctx.fill();
+                    ctx.globalCompositeOperation = 'destination-out';
+                    ctx.beginPath(); ctx.arc(this.size*0.4, -this.size*0.4, this.size*1.2, 0, Math.PI*2); ctx.fill();
+                    ctx.globalCompositeOperation = 'source-over';
+                }
+                ctx.restore();
+            }
+        }
+
+        // Interactive Moon Click Event
+        const iMoon = document.getElementById('interactive-moon');
+        iMoon.addEventListener('click', (e) => {
+            const rect = iMoon.getBoundingClientRect();
+            const mx = rect.left + rect.width/2;
+            const my = rect.top + rect.height/2;
+            // Spawn scatter explosion
+            for(let i=0; i<40; i++) particles.push(new TrailParticle(mx, my, true));
+        });
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            for(let i = particles.length-1; i>=0; i--) {
+                particles[i].update();
+                particles[i].draw();
+                if(particles[i].life <= 0) particles.splice(i, 1);
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+    </script>
 </body>
 </html>
