@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Eid Mubarak - Malik Tanzilla</title>
     
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cinzel:wght@600;800;900&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
 
     <style>
@@ -41,6 +40,34 @@
             max-width: 480px; margin: 0 auto;
             position: relative; overflow: hidden;
             background: #000;
+        }
+
+        /* Top Unmute Button */
+        #unmuteBtn {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(230, 202, 101, 0.6);
+            color: #E6CA65;
+            padding: 10px 24px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 30px;
+            cursor: pointer;
+            z-index: 3000;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        #unmuteBtn:active {
+            background: rgba(230, 202, 101, 0.3);
+            transform: translate(-50%, 2px) scale(0.95);
         }
 
         canvas {
@@ -278,12 +305,12 @@
 <body>
 
     <div class="phone-wrapper">
-        <!-- Canvas Engines -->
+        <button id="unmuteBtn" onclick="forceUnmuteAudio(event)">Tap to Unmute</button>
+
         <canvas id="fireworksCanvas"></canvas>
         <canvas id="petalsCanvas"></canvas>
         <canvas id="trailCanvas"></canvas>
 
-        <!-- AUTOMATED INTRO THEATRE -->
         <div id="intro-container">
             <div class="intro-bg-field"></div>
             <div class="sky-layer"></div>
@@ -301,10 +328,8 @@
             <div class="intro-loading-text">LOADING FOR MTJ</div>
         </div>
 
-        <!-- ROYAL CREAM MAIN ROOM -->
         <div id="main-stage">
             
-            <!-- Hanging Decorative Lanterns -->
             <div class="lantern-wrapper">
                 <svg viewBox="0 0 100 150" width="52" height="80">
                     <path d="M 35 35 Q 50 20 65 35 L 75 50 L 25 50 Z" fill="var(--gold-solid)"/>
@@ -328,10 +353,8 @@
                 <path d="M 60 15 A 38 38 0 1 0 90 45 A 30 30 0 1 1 60 15 Z" fill="url(#introGoldGrad)"/>
             </svg>
 
-            <!-- Segregated Side Streams Base Container -->
             <div id="guest-messages"></div>
 
-            <!-- Main Luxury Centerpiece -->
             <div class="centerpiece">
                 <div class="arabic-text">عيد الأضحى المبارك</div>
                 <div class="subtitle">EID-UL-ADHA</div>
@@ -357,20 +380,25 @@
     </div>
 
     <script>
-        // === Premium Synthesis Soundscape Engine ===
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        let mainMelodyNode;
-        let mainMelodyGain;
-        let noteInterval;
-        
-        function playSustainedAtmosphere() {
-            // Smooth Ambient Instrumental Pad for Intro
+        // === Safe Audio Ignition Engine ===
+        let audioCtx = null;
+        let mainMelodyNode = null;
+        let mainMelodyGain = null;
+        let audioInitialized = false;
+
+        function initAudioEngine() {
+            if (audioInitialized) return;
+            audioInitialized = true;
+
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // 1. Play Intro Ambient Elements
             const padOsc = audioCtx.createOscillator();
             const padGain = audioCtx.createGain();
             padOsc.type = 'sine';
-            padOsc.frequency.setValueAtTime(164.81, audioCtx.currentTime); // E3 comforting frequency
+            padOsc.frequency.setValueAtTime(164.81, audioCtx.currentTime);
             padGain.gain.setValueAtTime(0, audioCtx.currentTime);
-            padGain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 2);
+            padGain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 1.5);
             padOsc.connect(padGain);
             padGain.connect(audioCtx.destination);
             padOsc.start();
@@ -378,32 +406,54 @@
             const stringOsc = audioCtx.createOscillator();
             const stringGain = audioCtx.createGain();
             stringOsc.type = 'triangle';
-            stringOsc.frequency.setValueAtTime(246.94, audioCtx.currentTime); // B3 perfect fifth harmonic
+            stringOsc.frequency.setValueAtTime(246.94, audioCtx.currentTime);
             stringGain.gain.setValueAtTime(0, audioCtx.currentTime);
-            stringGain.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + 4);
+            stringGain.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + 3);
             stringOsc.connect(stringGain);
             stringGain.connect(audioCtx.destination);
             stringOsc.start();
+
+            // 2. Schedule Main Stage Music Crossfade precisely
+            setTimeout(() => {
+                playMainStageMusic();
+            }, Math.max(0, 6800 - (Date.now() - startTime)));
+        }
+
+        // Dedicated Unmute Controller tied to Button
+        function forceUnmuteAudio(event) {
+            if(event) event.stopPropagation();
+            
+            if (!audioInitialized) {
+                initAudioEngine();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            
+            const btn = document.getElementById('unmuteBtn');
+            if(btn) {
+                btn.style.opacity = '0';
+                setTimeout(() => btn.remove(), 500);
+            }
         }
 
         function playMainStageMusic() {
-            // Dedicated rich melodic progression for the main stage
+            if (!audioCtx) return;
             mainMelodyNode = audioCtx.createOscillator();
             mainMelodyGain = audioCtx.createGain();
             
             mainMelodyNode.type = 'sine';
-            mainMelodyNode.frequency.setValueAtTime(220.00, audioCtx.currentTime); // A3 Base
+            mainMelodyNode.frequency.setValueAtTime(220.00, audioCtx.currentTime);
             mainMelodyGain.gain.setValueAtTime(0, audioCtx.currentTime);
-            mainMelodyGain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 1.5); // Warm crossfade transition
+            mainMelodyGain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 2);
             
             mainMelodyNode.connect(mainMelodyGain);
             mainMelodyGain.connect(audioCtx.destination);
             mainMelodyNode.start();
 
-            // Continuous premium harmonic step script
-            let steps = [220.00, 261.63, 329.63, 293.66, 392.00, 329.63, 440.00, 392.00]; // Multi-note premium chord loop
+            let steps = [220.00, 261.63, 329.63, 293.66, 392.00, 329.63, 440.00, 392.00];
             let stepIndex = 0;
-            noteInterval = setInterval(() => {
+            setInterval(() => {
                 if(audioCtx && mainMelodyNode) {
                     stepIndex = (stepIndex + 1) % steps.length;
                     mainMelodyNode.frequency.exponentialRampToValueAtTime(steps[stepIndex], audioCtx.currentTime + 0.8);
@@ -412,6 +462,7 @@
         }
 
         function playExplosionSound() {
+            if (!audioCtx) return;
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'triangle';
@@ -422,6 +473,10 @@
             osc.connect(gain); gain.connect(audioCtx.destination);
             osc.start(); osc.stop(audioCtx.currentTime + 0.5);
         }
+
+        // Secondary fallback: if they tap anywhere else on screen, it unlocks audio
+        window.addEventListener('touchstart', forceUnmuteAudio, { once: true });
+        window.addEventListener('click', forceUnmuteAudio, { once: true });
 
         // === Generate Birds Dynamically ===
         const flock = document.getElementById('flock');
@@ -441,27 +496,22 @@
         }
 
         // === MASTER AUTOMATED TIMELINE TIMING ===
+        const startTime = Date.now();
         window.addEventListener('DOMContentLoaded', () => {
-            // Auto unlock context hooks across any platform input safely
-            const autoUnlock = () => {
-                if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-                window.removeEventListener('touchstart', autoUnlock);
-                window.removeEventListener('click', autoUnlock);
-            };
-            window.addEventListener('touchstart', autoUnlock, { once: true });
-            window.addEventListener('click', autoUnlock, { once: true });
-            
-            playSustainedAtmosphere();
-
             // Complete Intro Run to Main Stage Reveal (Exactly 6.8 seconds)
             setTimeout(() => {
                 const intro = document.getElementById('intro-container');
                 intro.classList.add('reveal-stage');
                 
-                // Firecrackers, Purple Petals & Main Music Execution
                 triggerOpeningFirecrackers();
                 startPetalRainEngine();
-                playMainStageMusic();
+
+                // If they never tapped to unmute, the button fades nicely when main stage appears
+                const btn = document.getElementById('unmuteBtn');
+                if(btn) {
+                    btn.style.opacity = '0';
+                    setTimeout(() => btn.remove(), 500);
+                }
 
                 setTimeout(() => {
                     intro.remove();
@@ -505,12 +555,10 @@
             const container = document.getElementById('guest-messages');
             if(!container) return;
             
-            // Re-fill pool if running out to guarantee ongoing freshness
             if(localWishPool.length === 0) {
                 localWishPool = [...wishes];
             }
             
-            // Extract a completely random unique choice each tick
             const targetIdx = Math.floor(Math.random() * localWishPool.length);
             const currentWish = localWishPool.splice(targetIdx, 1)[0];
 
@@ -522,7 +570,6 @@
             setTimeout(() => el.remove(), 9500);
         }
         
-        // Immediate cycle execution
         spawnMessage();
         setInterval(spawnMessage, 4000);
 
