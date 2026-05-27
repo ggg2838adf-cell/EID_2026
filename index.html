@@ -147,19 +147,20 @@
         }
         @keyframes floatMoon { 0% { transform: translateY(0); } 100% { transform: translateY(-10px); } }
 
-        /* Left and Right Side Tracks for Non-overlapping Cards */
+        /* Left and Right Side Tracks for Non-overlapping Transparent Luxury Theme Cards */
         #guest-messages {
             position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 100;
         }
         .guest-card {
             position: absolute; bottom: -100px; width: 140px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            background: rgba(184, 134, 11, 0.08);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
             padding: 12px 14px; border-radius: 18px;
-            border: 1px solid rgba(197, 160, 89, 0.35);
-            font-size: 0.78rem; font-weight: 600; color: var(--charcoal-gold);
-            box-shadow: 0 8px 20px rgba(139, 92, 26, 0.08);
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            font-size: 0.78rem; font-weight: 600; color: #4A3B2C;
+            box-shadow: 0 4px 15px rgba(184, 134, 11, 0.05);
             line-height: 1.4;
+            text-align: center;
             animation: sideFloatUp 9s linear forwards;
         }
         .card-left { left: 12px; }
@@ -203,7 +204,7 @@
         .name-box {
             font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.65rem;
             color: var(--charcoal-gold); padding: 16px 8px;
-            background: linear-gradient(180deg, #FFFFFF 0%, #FAFIEC 100%);
+            background: linear-gradient(180deg, #FFFFFF 0%, #FAFAEC 100%);
             border-top: 3px double var(--gold-solid);
             border-bottom: 3px double var(--gold-solid);
             letter-spacing: 1px; position: relative; z-index: 2;
@@ -326,39 +327,64 @@
     <script>
         // === Premium Synthesis Soundscape Engine ===
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let mainMelodyNode;
+        let mainMelodyGain;
         
         function playSustainedAtmosphere() {
-            // Smooth Ambient Instrumental Pad
+            // Smooth Ambient Instrumental Pad for Intro
             const padOsc = audioCtx.createOscillator();
             const padGain = audioCtx.createGain();
             padOsc.type = 'sine';
             padOsc.frequency.setValueAtTime(164.81, audioCtx.currentTime); // E3 comforting frequency
             padGain.gain.setValueAtTime(0, audioCtx.currentTime);
-            padGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 2); // Slow volume swelling
+            padGain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 2);
             padOsc.connect(padGain);
             padGain.connect(audioCtx.destination);
             padOsc.start();
 
-            // Introduce higher secondary layer harmonic string pad
             const stringOsc = audioCtx.createOscillator();
             const stringGain = audioCtx.createGain();
             stringOsc.type = 'triangle';
             stringOsc.frequency.setValueAtTime(246.94, audioCtx.currentTime); // B3 perfect fifth harmonic
             stringGain.gain.setValueAtTime(0, audioCtx.currentTime);
-            stringGain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 4);
+            stringGain.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + 4);
             stringOsc.connect(stringGain);
             stringGain.connect(audioCtx.destination);
             stringOsc.start();
         }
 
+        function playMainStageMusic() {
+            // Dedicated rich melodic progression for the main stage
+            mainMelodyNode = audioCtx.createOscillator();
+            mainMelodyGain = audioCtx.createGain();
+            
+            mainMelodyNode.type = 'sine';
+            mainMelodyNode.frequency.setValueAtTime(220.00, audioCtx.currentTime); // A3 Base
+            mainMelodyGain.gain.setValueAtTime(0, audioCtx.currentTime);
+            mainMelodyGain.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 1.5); // Warm crossfade transition
+            
+            mainMelodyNode.connect(mainMelodyGain);
+            mainMelodyGain.connect(audioCtx.destination);
+            mainMelodyNode.start();
+
+            // Continuous premium harmonic step script
+            let steps = [220.00, 261.63, 329.63, 293.66]; // Festive premium chord architecture
+            let stepIndex = 0;
+            setInterval(() => {
+                if(audioCtx && mainMelodyNode) {
+                    stepIndex = (stepIndex + 1) % steps.length;
+                    mainMelodyNode.frequency.exponentialRampToValueAtTime(steps[stepIndex], audioCtx.currentTime + 0.8);
+                }
+            }, 3000);
+        }
+
         function playExplosionSound() {
-            // Procedural micro noise crackle mimicking ambient celebratory resonance
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'triangle';
-            osc.frequency.setValueAtTime(100, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.3);
-            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(110, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(750, audioCtx.currentTime + 0.3);
+            gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
             osc.connect(gain); gain.connect(audioCtx.destination);
             osc.start(); osc.stop(audioCtx.currentTime + 0.5);
@@ -383,11 +409,15 @@
 
         // === MASTER AUTOMATED TIMELINE TIMING ===
         window.addEventListener('DOMContentLoaded', () => {
-            // Warm start soundscape instantly
-            if (audioCtx.state === 'suspended') {
-                window.addEventListener('touchstart', () => audioCtx.resume(), { once: true });
-                window.addEventListener('click', () => audioCtx.resume(), { once: true });
-            }
+            // Auto resume audio system protocols under mobile gesture interactions hooks
+            const autoUnlock = () => {
+                if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+                window.removeEventListener('touchstart', autoUnlock);
+                window.removeEventListener('click', autoUnlock);
+            };
+            window.addEventListener('touchstart', autoUnlock);
+            window.addEventListener('click', autoUnlock);
+            
             playSustainedAtmosphere();
 
             // Complete Intro Run to Main Stage Reveal (Exactly 6.8 seconds)
@@ -395,9 +425,10 @@
                 const intro = document.getElementById('intro-container');
                 intro.classList.add('reveal-stage');
                 
-                // Ignite Firecrackers Effect Immediately on Opening Stage
+                // Firecrackers, Red Petals & Main Music Execution
                 triggerOpeningFirecrackers();
                 startPetalRainEngine();
+                playMainStageMusic();
 
                 setTimeout(() => {
                     intro.remove();
@@ -435,7 +466,7 @@
             if(!container) return;
             const el = document.createElement('div');
             el.className = `guest-card ${alternativeSideToggle ? 'card-left' : 'card-right'}`;
-            alternativeSideToggle = !alternativeSideToggle; // Switch side stream tracking lane
+            alternativeSideToggle = !alternativeSideToggle; 
             el.innerText = wishes[Math.floor(Math.random() * wishes.length)];
             container.appendChild(el);
             setTimeout(() => el.remove(), 9000);
@@ -491,27 +522,30 @@
             });
         }
 
-        // === Falling Petals Engine ===
+        // === Falling Premium Red Petals Engine ===
         let petals = [];
         class Petal {
             constructor() {
                 this.x = Math.random() * w; this.y = -20;
-                this.size = Math.random() * 5 + 5;
-                this.speedY = Math.random() * 1 + 0.8;
-                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 6 + 5;
+                this.speedY = Math.random() * 1.1 + 0.7;
+                this.speedX = (Math.random() - 0.5) * 0.6;
                 this.rotation = Math.random() * Math.PI;
-                this.rotSpeed = (Math.random() - 0.5) * 0.02;
+                this.rotSpeed = (Math.random() - 0.5) * 0.025;
+                // Crimson / Premium Ruby Red variations
+                this.color = `rgba(${165 + Math.floor(Math.random() * 40)}, 28, 48, ${0.5 + Math.random() * 0.25})`;
             }
             update() { this.y += this.speedY; this.x += this.speedX; this.rotation += this.rotSpeed; }
             draw() {
                 ptCtx.save(); ptCtx.translate(this.x, this.y); ptCtx.rotate(this.rotation);
-                ptCtx.fillStyle = 'rgba(230, 202, 101, 0.45)'; // Soft premium gold petal tint
-                ptCtx.beginPath(); ptCtx.ellipse(0, 0, this.size, this.size/1.7, 0, 0, Math.PI*2);
+                ptCtx.fillStyle = this.color;
+                ptCtx.beginPath(); 
+                ptCtx.ellipse(0, 0, this.size, this.size / 1.6, 0, 0, Math.PI * 2);
                 ptCtx.fill(); ptCtx.restore();
             }
         }
         function startPetalRainEngine() {
-            setInterval(() => { if(petals.length < 35) petals.push(new Petal()); }, 400);
+            setInterval(() => { if(petals.length < 35) petals.push(new Petal()); }, 350);
         }
 
         // === Premium Cursor Luxury Trail ===
@@ -537,7 +571,7 @@
         window.addEventListener('mousemove', (e) => trackMove(e.clientX, e.clientY));
         window.addEventListener('touchmove', (e) => { if(e.touches.length > 0) trackMove(e.touches[0].clientX, e.touches[0].clientY); });
 
-        // Moon Tap Burst
+        // Moon Tap Burst Interaction
         document.getElementById('interactive-moon').addEventListener('click', (e) => {
             const rect = trCanvas.getBoundingClientRect();
             const mx = e.clientX - rect.left; const my = e.clientY - rect.top;
@@ -545,7 +579,7 @@
             for(let i=0; i<25; i++) fwParticles.push(new FireworkParticle(mx, my, '#C5A059'));
         });
 
-        // Combined High-Efficiency Animation Loop
+        // Combined Animation Engine Loop
         function globalAnimationPipeline() {
             fwCtx.clearRect(0, 0, w, h);
             ptCtx.clearRect(0, 0, w, h);
@@ -557,7 +591,7 @@
                 if(fwParticles[i].alpha <= 0) fwParticles.splice(i, 1);
             }
 
-            // Handle Petals Falling
+            // Handle Red Petals
             for (let i = petals.length - 1; i >= 0; i--) {
                 petals[i].update(); petals[i].draw();
                 if(petals[i].y > h + 20) petals.splice(i, 1);
