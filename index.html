@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Eid Mubarak - Malik Tanzilla</title>
     
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cinzel:wght@600;800;900&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
 
     <style>
@@ -42,28 +43,30 @@
             background: #000;
         }
 
-        /* Top Unmute Button */
+        /* Permanent Top Audio Toggle Button */
         #unmuteBtn {
             position: absolute;
-            top: 5%;
+            top: 4%;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(230, 202, 101, 0.6);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(230, 202, 101, 0.5);
             color: #E6CA65;
-            padding: 10px 24px;
+            padding: 8px 20px;
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             letter-spacing: 2px;
-            text-transform: uppercase;
             border-radius: 30px;
             cursor: pointer;
             z-index: 3000;
-            transition: all 0.4s ease;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         #unmuteBtn:active {
             background: rgba(230, 202, 101, 0.3);
@@ -90,7 +93,6 @@
             align-items: center;
         }
 
-        /* Ambient subtle background stars */
         .intro-bg-field {
             position: absolute; inset: 0;
             background-image: 
@@ -103,7 +105,6 @@
         }
         @keyframes fieldFade { to { opacity: 1; } }
 
-        /* 1-2s: Elegant, single tiny premium sparkle star */
         .intro-star {
             position: absolute; top: 40%; left: 50%; width: 6px; height: 6px;
             background: #FFF;
@@ -120,20 +121,17 @@
             100% { opacity: 1; transform: translate(-50%, -50%) scale(120); background: #EBF8FF; box-shadow: none; }
         }
 
-        /* 3s+: Sophisticated crescent moon fading into view gracefully */
         .intro-moon {
             position: absolute; top: 22%; left: 38%; width: 85px; height: 85px;
             fill: url(#introGoldGrad); opacity: 0; transform: translateY(15px);
             filter: drop-shadow(0 0 10px rgba(230, 202, 101, 0.3));
             animation: moonRise 2.8s 2.8s cubic-bezier(0.215, 0.610, 0.355, 1) forwards;
         }
-
         @keyframes moonRise {
             0% { opacity: 0; transform: translateY(15px) scale(0.9); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Loading Typography text decoration */
         .intro-loading-text {
             position: absolute; bottom: 15%;
             font-family: 'Cinzel', serif;
@@ -145,7 +143,6 @@
         @keyframes textPulse { 0% { opacity: 0.2; } 100% { opacity: 0.7; color: #E6CA65; } }
         @keyframes fadeOutText { to { opacity: 0; transform: translateY(10px); } }
 
-        /* 3.5s+: Backdrop soft blue daylight transition */
         .sky-layer {
             position: absolute; inset: 0;
             background: linear-gradient(180deg, #CDEEFF 0%, #F4FAFF 100%);
@@ -168,7 +165,6 @@
             100% { left: -25%; top: calc(var(--top) - 50px); opacity: 0; }
         }
 
-        /* Main Reveal Gate Controller */
         #intro-container.reveal-stage {
             opacity: 0; pointer-events: none;
             transition: opacity 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -182,7 +178,6 @@
             z-index: 1; padding: 16px;
         }
 
-        /* Interactive Elements - Fixed depth over centerpiece */
         .lantern-wrapper {
             position: absolute; z-index: 90; pointer-events: none;
             filter: drop-shadow(0 10px 15px rgba(184, 134, 11, 0.12));
@@ -204,32 +199,33 @@
         }
         @keyframes floatMoon { 0% { transform: translateY(0); } 100% { transform: translateY(-10px); } }
 
-        /* Left and Right Side Tracks for Non-overlapping Transparent Luxury Theme Cards */
+        /* === NON-OVERLAPPING TRANSPARENT CARDS === */
         #guest-messages {
             position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 100;
         }
         .guest-card {
-            position: absolute; bottom: -120px; width: 145px;
-            background: rgba(184, 134, 11, 0.06);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            padding: 14px 12px; border-radius: 18px;
-            border: 1px solid rgba(197, 160, 89, 0.35);
-            font-size: 0.75rem; font-weight: 600; color: #4A3B2C;
-            box-shadow: 0 4px 15px rgba(184, 134, 11, 0.04);
-            line-height: 1.4;
-            text-align: center;
-            animation: sideFloatUp 9.5s linear forwards;
+            position: absolute; bottom: -80px; width: 135px;
+            /* Extremely transparent, ghost-like appearance */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+            padding: 12px 10px; border-radius: 12px;
+            border: 1px solid rgba(230, 202, 101, 0.15);
+            font-size: 0.7rem; font-weight: 500; color: rgba(74, 59, 44, 0.85);
+            line-height: 1.4; text-align: center;
+            animation: shortFloatUp 8s linear forwards;
         }
-        .card-left { left: 12px; }
-        .card-right { right: 12px; }
-        @keyframes sideFloatUp {
-            0% { transform: translateY(0) scale(0.95); opacity: 0; }
+        .card-left { left: 8px; }
+        .card-right { right: 8px; }
+        
+        /* This animation forces the card to fade out BEFORE hitting the center text */
+        @keyframes shortFloatUp {
+            0% { transform: translateY(0) scale(0.9); opacity: 0; }
             15% { opacity: 1; }
-            85% { opacity: 1; }
-            100% { transform: translateY(-115vh) scale(1); opacity: 0; }
+            70% { opacity: 1; }
+            100% { transform: translateY(-45vh) scale(1); opacity: 0; } /* Stops at 45% screen height */
         }
 
-        /* === PHASE 3: Luxury Centerpiece (Premium Layering) === */
+        /* === PHASE 3: Luxury Centerpiece === */
         .centerpiece {
             position: relative; z-index: 10; width: 100%;
             background: rgba(255, 255, 255, 0.35);
@@ -254,7 +250,6 @@
             margin-bottom: 20px;
         }
 
-        /* Masterpiece Central Attraction Name Box */
         .name-box-container {
             position: relative; display: inline-block; margin: 18px 0; width: 100%;
         }
@@ -284,7 +279,6 @@
 
         .name-box-container.bloom .floral-corner { opacity: 1; transform: scale(1) rotate(0deg); }
 
-        /* Calendars Module */
         .date-section {
             display: flex; justify-content: space-between; align-items: center;
             border-top: 1px solid rgba(197, 160, 89, 0.18);
@@ -305,12 +299,15 @@
 <body>
 
     <div class="phone-wrapper">
-        <button id="unmuteBtn" onclick="forceUnmuteAudio(event)">Tap to Unmute</button>
+        <!-- PERMANENT TOGGLE BUTTON -->
+        <button id="unmuteBtn" onclick="toggleAudio(event)">🎵 TAP TO UNMUTE</button>
 
+        <!-- Canvas Engines -->
         <canvas id="fireworksCanvas"></canvas>
         <canvas id="petalsCanvas"></canvas>
         <canvas id="trailCanvas"></canvas>
 
+        <!-- AUTOMATED INTRO THEATRE -->
         <div id="intro-container">
             <div class="intro-bg-field"></div>
             <div class="sky-layer"></div>
@@ -328,8 +325,8 @@
             <div class="intro-loading-text">LOADING FOR MTJ</div>
         </div>
 
+        <!-- ROYAL CREAM MAIN ROOM -->
         <div id="main-stage">
-            
             <div class="lantern-wrapper">
                 <svg viewBox="0 0 100 150" width="52" height="80">
                     <path d="M 35 35 Q 50 20 65 35 L 75 50 L 25 50 Z" fill="var(--gold-solid)"/>
@@ -353,8 +350,10 @@
                 <path d="M 60 15 A 38 38 0 1 0 90 45 A 30 30 0 1 1 60 15 Z" fill="url(#introGoldGrad)"/>
             </svg>
 
+            <!-- Segregated Side Streams Base Container -->
             <div id="guest-messages"></div>
 
+            <!-- Main Luxury Centerpiece -->
             <div class="centerpiece">
                 <div class="arabic-text">عيد الأضحى المبارك</div>
                 <div class="subtitle">EID-UL-ADHA</div>
@@ -375,108 +374,99 @@
 
                 <div class="bottom-message">Wishing you a beautiful day filled with joy, gratitude, and special moments.</div>
             </div>
-
         </div>
     </div>
 
     <script>
-        // === Safe Audio Ignition Engine ===
+        // === Sweet Music Box Melody Engine ===
         let audioCtx = null;
-        let mainMelodyNode = null;
-        let mainMelodyGain = null;
-        let audioInitialized = false;
+        let isMuted = true;
+        let melodyStarted = false;
 
-        function initAudioEngine() {
-            if (audioInitialized) return;
-            audioInitialized = true;
-
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            
-            // 1. Play Intro Ambient Elements
-            const padOsc = audioCtx.createOscillator();
-            const padGain = audioCtx.createGain();
-            padOsc.type = 'sine';
-            padOsc.frequency.setValueAtTime(164.81, audioCtx.currentTime);
-            padGain.gain.setValueAtTime(0, audioCtx.currentTime);
-            padGain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 1.5);
-            padOsc.connect(padGain);
-            padGain.connect(audioCtx.destination);
-            padOsc.start();
-
-            const stringOsc = audioCtx.createOscillator();
-            const stringGain = audioCtx.createGain();
-            stringOsc.type = 'triangle';
-            stringOsc.frequency.setValueAtTime(246.94, audioCtx.currentTime);
-            stringGain.gain.setValueAtTime(0, audioCtx.currentTime);
-            stringGain.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + 3);
-            stringOsc.connect(stringGain);
-            stringGain.connect(audioCtx.destination);
-            stringOsc.start();
-
-            // 2. Schedule Main Stage Music Crossfade precisely
-            setTimeout(() => {
-                playMainStageMusic();
-            }, Math.max(0, 6800 - (Date.now() - startTime)));
-        }
-
-        // Dedicated Unmute Controller tied to Button
-        function forceUnmuteAudio(event) {
+        function toggleAudio(event) {
             if(event) event.stopPropagation();
-            
-            if (!audioInitialized) {
-                initAudioEngine();
-            }
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            
             const btn = document.getElementById('unmuteBtn');
-            if(btn) {
-                btn.style.opacity = '0';
-                setTimeout(() => btn.remove(), 500);
+            
+            // First time setup
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                startMusicBoxEngine();
+            }
+
+            // Toggle Logic
+            if (audioCtx.state === 'suspended' || isMuted) {
+                audioCtx.resume();
+                isMuted = false;
+                btn.innerHTML = "🔊 MUTE";
+                btn.style.borderColor = "rgba(255,255,255,0.8)";
+            } else {
+                audioCtx.suspend();
+                isMuted = true;
+                btn.innerHTML = "🔇 UNMUTE";
+                btn.style.borderColor = "rgba(230, 202, 101, 0.5)";
             }
         }
 
-        function playMainStageMusic() {
-            if (!audioCtx) return;
-            mainMelodyNode = audioCtx.createOscillator();
-            mainMelodyGain = audioCtx.createGain();
+        function playBellSound(freq, time) {
+            if(!audioCtx || isMuted) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
             
-            mainMelodyNode.type = 'sine';
-            mainMelodyNode.frequency.setValueAtTime(220.00, audioCtx.currentTime);
-            mainMelodyGain.gain.setValueAtTime(0, audioCtx.currentTime);
-            mainMelodyGain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 2);
+            osc.type = 'sine'; // Sine waves sound like gentle bells/glass
+            osc.frequency.value = freq;
             
-            mainMelodyNode.connect(mainMelodyGain);
-            mainMelodyGain.connect(audioCtx.destination);
-            mainMelodyNode.start();
+            // The envelope: Quick hit, long fade (like a music box)
+            gain.gain.setValueAtTime(0, time);
+            gain.gain.linearRampToValueAtTime(0.12, time + 0.02); // Quick attack
+            gain.gain.exponentialRampToValueAtTime(0.001, time + 1.5); // Slow decay
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.start(time);
+            osc.stop(time + 1.5);
+        }
 
-            let steps = [220.00, 261.63, 329.63, 293.66, 392.00, 329.63, 440.00, 392.00];
-            let stepIndex = 0;
+        function startMusicBoxEngine() {
+            if (melodyStarted) return;
+            melodyStarted = true;
+
+            // Soft Pentatonic Scale (Sweet, magical sound)
+            const notes = [
+                523.25, // C5
+                587.33, // D5
+                659.25, // E5
+                783.99, // G5
+                880.00, // A5
+                1046.50 // C6
+            ];
+            
+            // A beautiful arpeggio pattern
+            const pattern = [0, 2, 4, 3, 1, 2, 5, 4];
+            let step = 0;
+            
+            // Pluck a bell every 500 milliseconds
             setInterval(() => {
-                if(audioCtx && mainMelodyNode) {
-                    stepIndex = (stepIndex + 1) % steps.length;
-                    mainMelodyNode.frequency.exponentialRampToValueAtTime(steps[stepIndex], audioCtx.currentTime + 0.8);
+                if(!isMuted && audioCtx.state === 'running') {
+                    const freq = notes[pattern[step]];
+                    playBellSound(freq, audioCtx.currentTime);
+                    step = (step + 1) % pattern.length;
                 }
-            }, 2500);
+            }, 500);
         }
 
         function playExplosionSound() {
-            if (!audioCtx) return;
+            if (!audioCtx || isMuted) return;
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'triangle';
-            osc.frequency.setValueAtTime(110, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(750, audioCtx.currentTime + 0.3);
-            gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.3);
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
             osc.connect(gain); gain.connect(audioCtx.destination);
             osc.start(); osc.stop(audioCtx.currentTime + 0.5);
         }
-
-        // Secondary fallback: if they tap anywhere else on screen, it unlocks audio
-        window.addEventListener('touchstart', forceUnmuteAudio, { once: true });
-        window.addEventListener('click', forceUnmuteAudio, { once: true });
 
         // === Generate Birds Dynamically ===
         const flock = document.getElementById('flock');
@@ -488,7 +478,6 @@
             bird.style.setProperty('--delay', `${3.6 + (Math.random() * 1.5)}s`);
             bird.style.setProperty('--d', `${1.6 + Math.random() * 1.2}s`);
             bird.style.setProperty('--s', `${0.35 + Math.random() * 0.45}`);
-            
             const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
             path.setAttribute("d", "M 0,20 Q 15,5 25,20 Q 35,5 50,20 Q 40,15 25,25 Q 10,15 0,20 Z");
             bird.appendChild(path);
@@ -496,7 +485,6 @@
         }
 
         // === MASTER AUTOMATED TIMELINE TIMING ===
-        const startTime = Date.now();
         window.addEventListener('DOMContentLoaded', () => {
             // Complete Intro Run to Main Stage Reveal (Exactly 6.8 seconds)
             setTimeout(() => {
@@ -505,13 +493,6 @@
                 
                 triggerOpeningFirecrackers();
                 startPetalRainEngine();
-
-                // If they never tapped to unmute, the button fades nicely when main stage appears
-                const btn = document.getElementById('unmuteBtn');
-                if(btn) {
-                    btn.style.opacity = '0';
-                    setTimeout(() => btn.remove(), 500);
-                }
 
                 setTimeout(() => {
                     intro.remove();
@@ -534,7 +515,7 @@
             if(e.touches.length > 0) handleMove(e.touches[0].clientX, e.touches[0].clientY);
         });
 
-        // === Shuffle Stream System for Non-overlapping Non-emoji Unique Cards ===
+        // === Shuffle Stream System for Non-overlapping Transparent Cards ===
         const wishes = [
             "May your plate be always full of savory mutton",
             "Eid Mubarak wishing you warmest sweet moments",
@@ -567,7 +548,8 @@
             alternativeSideToggle = !alternativeSideToggle; 
             el.innerText = currentWish;
             container.appendChild(el);
-            setTimeout(() => el.remove(), 9500);
+            // Removes after 8 seconds (matching the new short animation)
+            setTimeout(() => el.remove(), 8000); 
         }
         
         spawnMessage();
@@ -632,7 +614,6 @@
                 this.speedX = (Math.random() - 0.5) * 0.6;
                 this.rotation = Math.random() * Math.PI;
                 this.rotSpeed = (Math.random() - 0.5) * 0.025;
-                // Luxury Violet / Orchid Purple tones
                 this.color = `rgba(${120 + Math.floor(Math.random() * 45)}, 45, ${180 + Math.floor(Math.random() * 50)}, ${0.55 + Math.random() * 0.25})`;
             }
             update() { this.y += this.speedY; this.x += this.speedX; this.rotation += this.rotSpeed; }
@@ -685,19 +666,16 @@
             ptCtx.clearRect(0, 0, w, h);
             trCtx.clearRect(0, 0, w, h);
 
-            // Handle Firecrackers
             for (let i = fwParticles.length - 1; i >= 0; i--) {
                 fwParticles[i].update(); fwParticles[i].draw();
                 if(fwParticles[i].alpha <= 0) fwParticles.splice(i, 1);
             }
 
-            // Handle Purple Petals
             for (let i = petals.length - 1; i >= 0; i--) {
                 petals[i].update(); petals[i].draw();
                 if(petals[i].y > h + 20) petals.splice(i, 1);
             }
 
-            // Handle Trail Particles
             for (let i = luxuryTrail.length - 1; i >= 0; i--) {
                 luxuryTrail[i].update(); luxuryTrail[i].draw();
                 if(luxuryTrail[i].alpha <= 0) luxuryTrail.splice(i, 1);
