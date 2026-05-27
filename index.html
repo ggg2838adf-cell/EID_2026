@@ -3,354 +3,417 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Eid-Ul-Adha Greeting - Malik Tanzilla</title>
+    <title>Eid Mubarak - Malik Tanzilla</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cinzel:wght@600&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cinzel:wght@500;700;900&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
 
     <style>
-        /* === Global Restarts & Locks === */
+        /* === Global Restarts & Phone Optimization === */
         :root {
             --mx: 0;
             --my: 0;
-            --gold: #D4AF37;
-            --gold-light: #FFD700;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html {
-            width: 100vw; height: 100vh;
-            overflow: hidden; /* Strict scroll lock */
-            overscroll-behavior: none;
-            touch-action: none;
-            background-color: #000;
-            font-family: 'Montserrat', sans-serif;
-            color: white;
-            user-select: none;
-        }
-
-        /* === Canvas Overlay === */
-        #cursorTrail {
-            position: fixed; top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        /* === PHASE 1: Cinematic Intro === */
-        #intro-container {
-            position: fixed; top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: #000;
-            z-index: 2000;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 1.5s ease;
-        }
-        #intro-container.fade-out { opacity: 0; pointer-events: none; }
-
-        .sparkle {
-            position: absolute; width: 4px; height: 4px; background: #fff;
-            border-radius: 50%; box-shadow: 0 0 15px 5px rgba(255,255,255,0.8);
-            opacity: 0; transform: scale(0);
-            animation: sparkleAnim 1s ease-in-out forwards;
+            --cream-bg: #FFFDF9;
+            --cream-dark: #F5EFE2;
+            --gold-metallic: linear-gradient(135deg, #B8860B 0%, #E6CA65 50%, #996515 100%);
+            --gold-solid: #C5A059;
+            --charcoal-gold: #3D3525;
         }
         
-        .starfield {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body, html {
+            width: 100vw; height: 100vh;
+            overflow: hidden !important;
+            position: fixed;
+            overscroll-behavior: none;
+            touch-action: none;
+            background-color: var(--cream-bg);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--charcoal-gold);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Enforce Mobile/Phone aspect ratio framing if opened on PC */
+        .phone-wrapper {
+            width: 100%; height: 100%;
+            max-width: 480px; margin: 0 auto;
+            position: relative; overflow: hidden;
+            box-shadow: 0 0 50px rgba(0,0,0,0.05);
+            background: var(--cream-bg);
+        }
+
+        #cursorTrail {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image:
-                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 150px 70px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 130px 180px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 260px 120px, #ddd, rgba(0,0,0,0));
-            background-repeat: repeat;
-            background-size: 300px 300px;
-            opacity: 0; transform: scale(1);
-            animation: starFadeZoom 5.8s 1s ease-out forwards;
+            pointer-events: none; z-index: 100;
         }
 
-        .intro-moon-mist {
-            position: absolute; opacity: 0;
-            animation: moonMistFade 2s 2s ease-out forwards;
+        /* === AUDIO EXPERIENCE GATE === */
+        #audio-gate {
+            position: absolute; inset: 0; z-index: 3000;
+            background: var(--cream-bg);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+        .gate-btn {
+            background: transparent; border: 2px solid var(--gold-solid);
+            padding: 15px 35px; font-family: 'Cinzel', serif; font-size: 1rem;
+            color: var(--charcoal-gold); letter-spacing: 2px; cursor: pointer;
+            border-radius: 40px; transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(197, 160, 89, 0.15);
+        }
+        .gate-btn:active { transform: scale(0.95); background: var(--cream-dark); }
+
+        /* === PHASE 1: Blue Sky & Birds Intro === */
+        #intro-container {
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, #BAE6FD 0%, #E0F2FE 100%);
+            z-index: 2000; display: flex; justify-content: center; align-items: center;
+            opacity: 1; transition: opacity 1.2s cubic-bezier(0.45, 0, 0.55, 1);
+            pointer-events: none;
+        }
+        #intro-container.fade-out { opacity: 0; }
+
+        .flock-container { position: absolute; width: 100%; height: 100%; }
+        .intro-bird {
+            position: absolute; fill: #2A4365; opacity: 0;
+            transform: scale(var(--s)) translateY(0);
+            animation: flockFly var(--d) var(--delay) linear forwards;
+        }
+        @keyframes flockFly {
+            0% { left: 120%; top: var(--top); opacity: 0; transform: scale(var(--s)) translateY(0); }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { left: -30%; top: calc(var(--top) - 80px); opacity: 0; transform: scale(var(--s)) translateY(-30px); }
         }
 
-        .birds {
-            position: absolute; width: 100vw; height: 100vh; pointer-events: none;
-        }
-        .bird { position: absolute; left: 110vw; opacity: 0; fill: #111; }
-        .bird1 { top: 35%; animation: birdFly 1.8s 4s linear forwards; }
-        .bird2 { top: 40%; animation: birdFly 2.2s 4.2s linear forwards; transform: scale(0.7); }
-        .bird3 { top: 30%; animation: birdFly 1.6s 4.4s linear forwards; transform: scale(0.5); }
-
-        .golden-bloom {
-            position: absolute; top: 50%; left: 50%;
-            width: 100vmax; height: 100vmax;
-            margin-left: -50vmax; margin-top: -50vmax;
-            border-radius: 50%;
-            background: radial-gradient(circle, #fff 0%, #FFD700 30%, transparent 70%);
+        /* Intro Star & Moon Zoom */
+        .intro-star {
+            position: absolute; width: 10px; height: 10px; background: #FFF;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             opacity: 0; transform: scale(0);
-            animation: goldenBloom 1.3s 5.5s ease-in forwards;
+            box-shadow: 0 0 40px #FFF;
+            animation: starZoomIn 2.5s 2.2s cubic-bezier(0.11, 0, 0, 1) forwards;
+        }
+        @keyframes starZoomIn {
+            0% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(15) rotate(180deg); }
+            100% { opacity: 1; transform: scale(45) rotate(360deg); background: #FFFDF9; }
         }
 
-        /* Intro Animations */
-        @keyframes sparkleAnim { 0% { opacity: 0; transform: scale(0); } 50% { opacity: 1; transform: scale(1.5); } 100% { opacity: 0; transform: scale(0); } }
-        @keyframes starFadeZoom { 0% { opacity: 0; transform: scale(1); } 20% { opacity: 1; } 100% { opacity: 1; transform: scale(1.15); } }
-        @keyframes moonMistFade { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-        @keyframes birdFly { 0% { left: 110vw; transform: translateY(0) scale(var(--s, 1)); opacity: 1; } 100% { left: -20vw; transform: translateY(-50px) scale(var(--s, 1)); opacity: 1; } }
-        @keyframes goldenBloom { 0% { opacity: 0; transform: scale(0); } 70% { opacity: 1; transform: scale(1.5); } 100% { opacity: 1; transform: scale(3); background: radial-gradient(circle, #fff 0%, #fff 100%); } }
+        .intro-moon {
+            position: absolute; width: 120px; height: 120px; fill: url(#goldGrad);
+            opacity: 0; transform: scale(0.5);
+            animation: introMoonFade 2.2s 4.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes introMoonFade {
+            0% { opacity: 0; transform: scale(0.5) rotate(-20deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
 
-        /* === PHASE 2: Main Stage Environment === */
+        /* === PHASE 2: Main Stage (Cream & Gold) === */
         #main-stage {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(270deg, #FDFBF7, #D4AF37, #1A2436, #D4AF37, #FDFBF7);
-            background-size: 800% 800%;
-            animation: dayNightCycle 90s ease-in-out infinite;
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, #FFFDF9, #F5EFE2, #EFEAD8, #F5EFE2);
+            background-size: 400% 400%;
+            animation: creamGlow 30s ease infinite alternate;
             display: flex; justify-content: center; align-items: center;
-            z-index: 1;
+            z-index: 1; padding: 20px;
         }
-        @keyframes dayNightCycle { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        @keyframes creamGlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
 
+        /* Dynamic Foregrounds (z-index > Centerpiece) */
         .lantern-wrapper {
-            position: absolute; opacity: 0.4;
-            animation: floatLantern 10s ease-in-out infinite alternate;
+            position: absolute; z-index: 25; pointer-events: none;
+            filter: drop-shadow(0 15px 15px rgba(184, 134, 11, 0.15));
+            animation: swayLantern 6s ease-in-out infinite alternate;
         }
-        .lantern-wrapper:nth-child(1) { top: 15%; left: 8%; transform: scale(0.6); animation-delay: 0s; }
-        .lantern-wrapper:nth-child(2) { top: 60%; left: 85%; transform: scale(0.4); animation-delay: -3s; }
-        .lantern-wrapper:nth-child(3) { top: 75%; left: 15%; transform: scale(0.7); animation-delay: -7s; }
-        @keyframes floatLantern { 0% { margin-top: 0; transform: rotate(-5deg); } 100% { margin-top: -40px; transform: rotate(5deg); } }
+        .lantern-wrapper:nth-child(1) { top: 6%; left: 8%; transform: scale(0.65); animation-delay: 0s; }
+        .lantern-wrapper:nth-child(2) { top: 8%; right: 8%; transform: scale(0.65); animation-delay: -2s; }
+        @keyframes swayLantern {
+            0% { transform: scale(0.65) rotate(-4deg); }
+            100% { transform: scale(0.65) rotate(4deg); }
+        }
 
         #interactive-moon {
-            position: absolute; top: 5%; right: 5%;
-            width: 90px; height: 90px; cursor: pointer;
-            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
-            animation: floatMoon 6s ease-in-out infinite alternate;
-            transition: filter 0.3s ease; z-index: 20;
+            position: absolute; top: 18%; right: 12%;
+            width: 75px; height: 75px; cursor: pointer;
+            filter: drop-shadow(0 0 10px rgba(197,160,89,0.3));
+            animation: floatMoon 5s ease-in-out infinite alternate;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 30;
         }
-        #interactive-moon:hover { filter: drop-shadow(0 0 35px rgba(212, 175, 55, 1)); }
-        @keyframes floatMoon { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
+        #interactive-moon:active { transform: scale(1.15); }
+        @keyframes floatMoon { 0% { transform: translateY(0); } 100% { transform: translateY(-12px); } }
 
         #guest-messages {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; overflow: hidden; z-index: 5;
+            position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 40;
         }
         .guest-card {
-            position: absolute; bottom: -100px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            padding: 12px 25px; border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-            font-family: 'Montserrat', sans-serif; font-size: 0.9rem;
-            color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            animation: floatUp 15s linear forwards;
+            position: absolute; bottom: -80px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            padding: 14px 22px; border-radius: 30px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            font-size: 0.85rem; font-weight: 500; color: var(--charcoal-gold);
+            box-shadow: 0 10px 25px rgba(139, 92, 26, 0.08);
+            animation: floatUpMob 10s linear forwards;
         }
-        @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-120vh); opacity: 0; } }
+        @keyframes floatUpMob {
+            0% { transform: translateY(0) scale(0.9); opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { transform: translateY(-115vh) scale(1); opacity: 0; }
+        }
 
-        /* === PHASE 3: Centerpiece === */
+        /* === PHASE 3: Centerpiece Panel === */
         .centerpiece {
-            position: relative; z-index: 10;
-            background: rgba(20, 20, 20, 0.25);
-            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            border-radius: 20px; padding: 50px;
-            text-align: center;
-            box-shadow: inset 0 0 30px rgba(212, 175, 55, 0.15), 0 25px 50px rgba(0,0,0,0.3);
-            /* Parallax Effect */
-            transform: perspective(1000px) rotateX(calc(var(--my) * -12deg)) rotateY(calc(var(--mx) * 12deg));
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
+            position: relative; z-index: 10; width: 100%;
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 24px; padding: 40px 22px; text-align: center;
+            box-shadow: 0 20px 50px rgba(165, 140, 90, 0.12), inset 0 0 20px rgba(255,255,255,0.5);
+            transform: perspective(1000px) rotateX(calc(var(--my) * -6deg)) rotateY(calc(var(--mx) * 6deg));
+            transition: transform 0.2s ease-out;
         }
-        .centerpiece > * { transform: translateZ(40px); }
 
         .arabic-text {
-            font-family: 'Amiri', serif; font-size: 4.5rem; font-weight: 700;
-            background: linear-gradient(90deg, #D4AF37 0%, #FFF5E1 50%, #D4AF37 100%);
-            background-size: 200% auto;
-            color: transparent; -webkit-background-clip: text; background-clip: text;
-            animation: goldShine 4s linear infinite; margin-bottom: -10px;
+            font-family: 'Amiri', serif; font-size: 2.8rem; font-weight: 700;
+            background: var(--gold-metallic); color: transparent;
+            -webkit-background-clip: text; background-clip: text;
+            margin-bottom: 2px;
         }
-        @keyframes goldShine { to { background-position: 200% center; } }
 
         .subtitle {
-            font-family: 'Montserrat', sans-serif; letter-spacing: 8px;
-            font-size: 1.1rem; color: #E0E0E0; margin-bottom: 30px;
+            font-family: 'Montserrat', sans-serif; letter-spacing: 5px;
+            font-size: 0.85rem; font-weight: 600; color: var(--gold-solid);
+            margin-bottom: 25px;
         }
 
+        /* PREMIUM CENTRAL NAME BOX */
+        .name-box-container {
+            position: relative; display: inline-block; margin: 20px 0; width: 100%;
+        }
         .name-box {
-            font-family: 'Cinzel', serif; position: relative;
-            border: 2px solid var(--gold); padding: 15px 40px;
-            font-size: 2.5rem; font-weight: 600; color: #FFF;
-            display: inline-block; background: rgba(212, 175, 55, 0.1);
+            font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.7rem;
+            color: var(--charcoal-gold); padding: 18px 10px;
+            background: radial-gradient(circle, #FFFFFF 0%, #FDFBF7 100%);
+            border-top: 2px solid var(--gold-solid);
+            border-bottom: 2px solid var(--gold-solid);
+            letter-spacing: 1px; position: relative; z-index: 2;
+            box-shadow: 0 12px 35px rgba(197, 160, 89, 0.15);
         }
-
+        .name-box::before {
+            content: ''; position: absolute; inset: 4px;
+            border-top: 1px dashed rgba(197, 160, 89, 0.5);
+            border-bottom: 1px dashed rgba(197, 160, 89, 0.5);
+        }
+        
+        /* Fine Floral Accents */
         .floral-corner {
-            position: absolute; width: 45px; height: 45px; opacity: 0;
-            transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-origin: center;
+            position: absolute; width: 32px; height: 32px; z-index: 5;
+            transition: all 1.4s cubic-bezier(0.19, 1, 0.22, 1); opacity: 0;
         }
-        .tl { top: -20px; left: -20px; transform: scale(0) rotate(-90deg); }
-        .tr { top: -20px; right: -20px; transform: scale(0) rotate(0deg); }
-        .bl { bottom: -20px; left: -20px; transform: scale(0) rotate(-180deg); }
-        .br { bottom: -20px; right: -20px; transform: scale(0) rotate(90deg); }
+        .tl { top: -14px; left: -6px; transform: scale(0.4) rotate(-45deg); }
+        .tr { top: -14px; right: -6px; transform: scale(0.4) rotate(45deg); }
+        .bl { bottom: -14px; left: -6px; transform: scale(0.4) rotate(-135deg); }
+        .br { bottom: -14px; right: -6px; transform: scale(0.4) rotate(135deg); }
 
-        .name-box.bloom .floral-corner { opacity: 1; }
-        .name-box.bloom .tl { transform: scale(1) rotate(0deg); }
-        .name-box.bloom .tr { transform: scale(1) rotate(90deg); }
-        .name-box.bloom .bl { transform: scale(1) rotate(-90deg); }
-        .name-box.bloom .br { transform: scale(1) rotate(180deg); }
+        .name-box-container.bloom .floral-corner { opacity: 1; }
+        .name-box-container.bloom .tl { transform: scale(1) rotate(0deg); }
+        .name-box-container.bloom .tr { transform: scale(1) rotate(0deg); }
+        .name-box-container.bloom .bl { transform: scale(1) rotate(0deg); }
+        .name-box-container.bloom .br { transform: scale(1) rotate(0deg); }
 
-        .name-box.bloom-out .floral-corner { opacity: 0; transform: scale(0.5) rotate(45deg); transition: all 1s ease-in; }
+        /* Elegant Dates Block */
+        .date-section {
+            display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 10px 5px; margin: 25px 0 15px 0;
+            font-size: 0.78rem; font-weight: 600; letter-spacing: 0.5px;
+        }
+        .date-eg { font-family: 'Montserrat', sans-serif; color: var(--charcoal-gold); }
+        .date-ar { font-family: 'Amiri', serif; color: var(--gold-solid); font-size: 1.05rem; }
 
         .bottom-message {
             font-family: 'Playfair Display', serif; font-style: italic;
-            font-size: 1.3rem; color: #E5E5E5; margin-top: 35px;
-            max-width: 450px; line-height: 1.6;
-        }
-
-        /* Mobile adjustments */
-        @media (max-width: 768px) {
-            .centerpiece { padding: 30px 20px; transform: none !important; width: 90%; }
-            .arabic-text { font-size: 3.2rem; }
-            .name-box { font-size: 1.8rem; padding: 10px 20px; }
-            .subtitle { font-size: 0.9rem; letter-spacing: 4px; }
-            .bottom-message { font-size: 1.1rem; }
+            font-size: 1.1rem; color: var(--charcoal-gold); opacity: 0.9;
+            line-height: 1.6; padding: 0 10px;
         }
     </style>
 </head>
 <body>
 
-    <canvas id="cursorTrail"></canvas>
+    <div class="phone-wrapper">
+        <canvas id="cursorTrail"></canvas>
 
-    <div id="intro-container">
-        <div class="starfield"></div>
-        <div class="intro-moon-mist">
-            <svg viewBox="0 0 100 100" width="150" height="150">
+        <div id="audio-gate">
+            <h2 style="font-family:'Cinzel',serif; font-size:1.3rem; margin-bottom:25px; color:var(--charcoal-gold); letter-spacing:3px;">EID GREETINGS</h2>
+            <button class="gate-btn" onclick="startExperience()">Begin Experience</button>
+        </div>
+
+        <div id="intro-container">
+            <div class="flock-container" id="flock"></div>
+            <div class="intro-star"></div>
+            <svg class="intro-moon" viewBox="0 0 100 100">
                 <defs>
-                    <radialGradient id="mist" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stop-color="rgba(255,255,255,0.25)"/>
-                        <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-                    </radialGradient>
+                    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#E6CA65" />
+                        <stop offset="100%" stop-color="#996515" />
+                    </linearGradient>
                 </defs>
-                <circle cx="50" cy="50" r="50" fill="url(#mist)"/>
-                <path d="M 50 15 A 35 35 0 1 0 85 50 A 25 25 0 1 1 50 15 Z" fill="#FFF"/>
-            </svg>
-        </div>
-        <div class="birds">
-            <svg class="bird bird1" viewBox="0 0 50 50" width="60" height="60"><path d="M 0,20 Q 15,5 25,20 Q 35,5 50,20 Q 40,15 25,25 Q 10,15 0,20 Z" fill="#050505"/></svg>
-            <svg class="bird bird2" viewBox="0 0 50 50" width="60" height="60"><path d="M 0,20 Q 15,5 25,20 Q 35,5 50,20 Q 40,15 25,25 Q 10,15 0,20 Z" fill="#050505"/></svg>
-            <svg class="bird bird3" viewBox="0 0 50 50" width="60" height="60"><path d="M 0,20 Q 15,5 25,20 Q 35,5 50,20 Q 40,15 25,25 Q 10,15 0,20 Z" fill="#050505"/></svg>
-        </div>
-        <div class="sparkle"></div>
-        <div class="golden-bloom"></div>
-    </div>
-
-    <div id="main-stage">
-        
-        <div class="lantern-wrapper">
-            <svg viewBox="0 0 100 150" width="60" height="90">
-                <circle cx="50" cy="15" r="10" stroke="#D4AF37" stroke-width="4" fill="none"/>
-                <path d="M 30 30 Q 50 15 70 30 L 85 45 L 15 45 Z" fill="#D4AF37"/>
-                <polygon points="25,45 75,45 65,115 35,115" fill="rgba(212, 175, 55, 0.15)" stroke="#D4AF37" stroke-width="3"/>
-                <circle cx="50" cy="85" r="18" fill="#FFD700" filter="blur(6px)"/>
-                <polygon points="35,115 65,115 75,125 25,125" fill="#D4AF37"/>
-            </svg>
-        </div>
-        <div class="lantern-wrapper">
-            <svg viewBox="0 0 100 150" width="60" height="90">
-                <circle cx="50" cy="15" r="10" stroke="#D4AF37" stroke-width="4" fill="none"/>
-                <path d="M 30 30 Q 50 15 70 30 L 85 45 L 15 45 Z" fill="#D4AF37"/>
-                <polygon points="25,45 75,45 65,115 35,115" fill="rgba(212, 175, 55, 0.15)" stroke="#D4AF37" stroke-width="3"/>
-                <circle cx="50" cy="85" r="18" fill="#FFD700" filter="blur(6px)"/>
-                <polygon points="35,115 65,115 75,125 25,125" fill="#D4AF37"/>
-            </svg>
-        </div>
-        <div class="lantern-wrapper">
-            <svg viewBox="0 0 100 150" width="60" height="90">
-                <circle cx="50" cy="15" r="10" stroke="#D4AF37" stroke-width="4" fill="none"/>
-                <path d="M 30 30 Q 50 15 70 30 L 85 45 L 15 45 Z" fill="#D4AF37"/>
-                <polygon points="25,45 75,45 65,115 35,115" fill="rgba(212, 175, 55, 0.15)" stroke="#D4AF37" stroke-width="3"/>
-                <circle cx="50" cy="85" r="18" fill="#FFD700" filter="blur(6px)"/>
-                <polygon points="35,115 65,115 75,125 25,125" fill="#D4AF37"/>
+                <path d="M 60 10 A 40 40 0 1 0 90 40 A 32 32 0 1 1 60 10 Z"/>
             </svg>
         </div>
 
-        <svg id="interactive-moon" viewBox="0 0 100 100">
-            <defs>
-                <linearGradient id="moonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#FFF5E1" />
-                    <stop offset="100%" stop-color="#D4AF37" />
-                </linearGradient>
-            </defs>
-            <path d="M 60 5 A 45 45 0 1 0 95 40 A 35 35 0 1 1 60 5 Z" fill="url(#moonGrad)"/>
-            <circle cx="80" cy="25" r="2.5" fill="#fff" />
-            <circle cx="68" cy="12" r="1.5" fill="#fff" />
-        </svg>
-
-        <div id="guest-messages"></div>
-
-        <div class="centerpiece">
-            <div class="arabic-text">عيد الأضحى المبارك</div>
-            <div class="subtitle">EID-UL-ADHA</div>
+        <div id="main-stage">
             
-            <div class="name-box">
-                <svg class="floral-corner tl" viewBox="0 0 50 50"><path d="M 0 0 Q 30 0 30 30 Q 30 10 50 10 Q 30 10 20 30 Q 20 0 0 0 Z" fill="#D4AF37"/></svg>
-                <svg class="floral-corner tr" viewBox="0 0 50 50"><path d="M 0 0 Q 30 0 30 30 Q 30 10 50 10 Q 30 10 20 30 Q 20 0 0 0 Z" fill="#D4AF37"/></svg>
-                <svg class="floral-corner bl" viewBox="0 0 50 50"><path d="M 0 0 Q 30 0 30 30 Q 30 10 50 10 Q 30 10 20 30 Q 20 0 0 0 Z" fill="#D4AF37"/></svg>
-                <svg class="floral-corner br" viewBox="0 0 50 50"><path d="M 0 0 Q 30 0 30 30 Q 30 10 50 10 Q 30 10 20 30 Q 20 0 0 0 Z" fill="#D4AF37"/></svg>
-                
-                MALIK TANZILLA
+            <div class="lantern-wrapper">
+                <svg viewBox="0 0 100 150" width="55" height="85">
+                    <path d="M 35 35 Q 50 20 65 35 L 75 50 L 25 50 Z" fill="var(--gold-solid)"/>
+                    <polygon points="30,50 70,50 62,110 38,110" fill="rgba(255,255,255,0.7)" stroke="var(--gold-solid)" stroke-width="2.5"/>
+                    <circle cx="50" cy="80" r="12" fill="#FFEAA7" filter="blur(4px)"/>
+                    <polygon points="38,110 62,110 68,120 32,120" fill="var(--gold-solid)"/>
+                    <line x1="50" y1="0" x2="50" y2="25" stroke="var(--gold-solid)" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="lantern-wrapper">
+                <svg viewBox="0 0 100 150" width="55" height="85">
+                    <path d="M 35 35 Q 50 20 65 35 L 75 50 L 25 50 Z" fill="var(--gold-solid)"/>
+                    <polygon points="30,50 70,50 62,110 38,110" fill="rgba(255,255,255,0.7)" stroke="var(--gold-solid)" stroke-width="2.5"/>
+                    <circle cx="50" cy="80" r="12" fill="#FFEAA7" filter="blur(4px)"/>
+                    <polygon points="38,110 62,110 68,120 32,120" fill="var(--gold-solid)"/>
+                    <line x1="50" y1="0" x2="50" y2="25" stroke="var(--gold-solid)" stroke-width="2"/>
+                </svg>
             </div>
 
-            <div class="bottom-message">Wishing you a beautiful day filled with joy, gratitude, and special moments.</div>
-        </div>
+            <svg id="interactive-moon" viewBox="0 0 100 100">
+                <path d="M 60 10 A 40 40 0 1 0 90 40 A 32 32 0 1 1 60 10 Z" fill="url(#goldGrad)"/>
+            </svg>
 
+            <div id="guest-messages"></div>
+
+            <div class="centerpiece">
+                <div class="arabic-text">عيد الأضحى المبارك</div>
+                <div class="subtitle">EID-UL-ADHA</div>
+                
+                <div class="name-box-container" id="nameBoxCont">
+                    <svg class="floral-corner tl" viewBox="0 0 40 40"><path d="M0,0 Q25,0 25,25 Q15,12 40,10 Q20,18 0,0" fill="var(--gold-solid)"/></svg>
+                    <svg class="floral-corner tr" viewBox="0 0 40 40" style="transform: scaleX(-1);"><path d="M0,0 Q25,0 25,25 Q15,12 40,10 Q20,18 0,0" fill="var(--gold-solid)"/></svg>
+                    <svg class="floral-corner bl" viewBox="0 0 40 40" style="transform: scaleY(-1);"><path d="M0,0 Q25,0 25,25 Q15,12 40,10 Q20,18 0,0" fill="var(--gold-solid)"/></svg>
+                    <svg class="floral-corner br" viewBox="0 0 40 40" style="transform: scale(-1);"><path d="M0,0 Q25,0 25,25 Q15,12 40,10 Q20,18 0,0" fill="var(--gold-solid)"/></svg>
+                    
+                    <div class="name-box">MALIK TANZILLA</div>
+                </div>
+
+                <div class="date-section">
+                    <div class="date-eg">27 May 2026</div>
+                    <div class="date-ar">١٠ ذو الحجة ١٤٤٧ هـ</div>
+                </div>
+
+                <div class="bottom-message">Wishing you a beautiful day filled with joy, gratitude, and special moments.</div>
+            </div>
+
+        </div>
     </div>
 
     <script>
-        // === Phase 1 Timeline Controller ===
-        setTimeout(() => {
-            const intro = document.getElementById('intro-container');
-            if(intro) {
-                intro.classList.add('fade-out');
-                // Remove from DOM after fade-out
-                setTimeout(() => intro.remove(), 1500); 
-            }
-
-            // Trigger floral bloom slightly after reveal
-            setTimeout(() => {
-                const nameBox = document.querySelector('.name-box');
-                nameBox.classList.add('bloom');
+        // === Web Audio API Generator (Self-contained Cinematic Soundscape) ===
+        let audioCtx;
+        function playCinematicChime() {
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 
-                // Graceful vanish after a few seconds
+                // Base Ambient Pad
+                let pad = audioCtx.createOscillator();
+                let padGain = audioCtx.createGain();
+                pad.type = 'sine'; pad.frequency.setValueAtTime(146.83, audioCtx.currentTime); // D3 note
+                padGain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                padGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 8);
+                pad.connect(padGain); padGain.connect(audioCtx.destination);
+                pad.start();
+
+                // High Chime Sparkle Sequence
+                [293.66, 392.00, 440.00, 587.33].forEach((freq, index) => {
+                    let osc = audioCtx.createOscillator();
+                    let gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (index * 0.4));
+                    gain.gain.setValueAtTime(0, audioCtx.currentTime + (index * 0.4));
+                    gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + (index * 0.4) + 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (index * 0.4) + 2.5);
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.start(); osc.stop(audioCtx.currentTime + (index * 0.4) + 3);
+                });
+            } catch(e) { console.log("Audio not supported context"); }
+        }
+
+        // === Generate Birds Dynamically ===
+        const flock = document.getElementById('flock');
+        for(let i=0; i<16; i++) {
+            const bird = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            bird.setAttribute("class", "intro-bird");
+            bird.setAttribute("viewBox", "0 0 50 50");
+            bird.style.setProperty('--top', `${Math.random() * 45 + 15}%`);
+            bird.style.setProperty('--delay', `${Math.random() * 1.8}s`);
+            bird.style.setProperty('--d', `${1.5 + Math.random() * 1.2}s`);
+            bird.style.setProperty('--s', `${0.3 + Math.random() * 0.5}`);
+            
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", "M 0,20 Q 15,5 25,20 Q 35,5 50,20 Q 40,15 25,25 Q 10,15 0,20 Z");
+            bird.appendChild(path);
+            flock.appendChild(bird);
+        }
+
+        // === Unlock & Start Sequence ===
+        function startExperience() {
+            document.getElementById('audio-gate').style.display = 'none';
+            playCinematicChime();
+            
+            // Trigger Star & Moon Animations inside intro container
+            document.querySelector('.intro-star').style.animationPlayState = 'running';
+
+            // Transition To Main Stage at exactly 6.8s
+            setTimeout(() => {
+                const intro = document.getElementById('intro-container');
+                intro.classList.add('fade-out');
+                setTimeout(() => intro.remove(), 1200);
+
+                // Bloom Name Box Decoration
                 setTimeout(() => {
-                    nameBox.classList.remove('bloom');
-                    nameBox.classList.add('bloom-out');
-                }, 4000);
-            }, 1000);
-        }, 6800); // Trigger exactly at 6.8s mark
+                    document.getElementById('nameBoxCont').classList.add('bloom');
+                }, 600);
+            }, 6800);
+        }
 
-
-        // === Phase 2 Parallax calculation ===
-        function updateParallax(x, y) {
-            // Convert to -1 to 1 space
-            const normX = (x / window.innerWidth - 0.5) * 2;
-            const normY = (y / window.innerHeight - 0.5) * 2;
+        // === Interactive Parallax ===
+        function handleMove(x, y) {
+            const wrap = document.querySelector('.phone-wrapper');
+            const rect = wrap.getBoundingClientRect();
+            const relX = x - rect.left; const relY = y - rect.top;
+            const normX = (relX / rect.width - 0.5) * 2;
+            const normY = (relY / rect.height - 0.5) * 2;
             document.documentElement.style.setProperty('--mx', normX);
             document.documentElement.style.setProperty('--my', normY);
         }
-        document.addEventListener('mousemove', (e) => updateParallax(e.clientX, e.clientY));
-        document.addEventListener('touchmove', (e) => {
-            if(e.touches.length > 0) updateParallax(e.touches[0].clientX, e.touches[0].clientY);
+        window.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
+        window.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0) handleMove(e.touches[0].clientX, e.touches[0].clientY);
         });
 
-
-        // === Phase 2 Guest Message Book ===
+        // === Floating Blessings Deck ===
         const wishes = [
             "May your plate be always full of mutton! 🥩",
-            "Wishing you a joyous and blessed Eid!",
-            "May this Eid bring peace, prosperity, and happiness.",
-            "Eid Mubarak! Have a wonderful day with loved ones.",
-            "Sending you warm wishes on this special occasion.",
-            "May Allah's blessings be with you today and always.",
-            "Have a delicious and memorable Eid-Ul-Adha!"
+            "Eid Mubarak! Warmest lovely wishes ✨",
+            "Barakah, Joy & Prosperity to you 🌟",
+            "May your sacrifices be accepted 🕋",
+            "Beautiful moments with family & friends ♥️",
+            "Wishing you pure happiness & peace 🕊️"
         ];
         function spawnMessage() {
             const container = document.getElementById('guest-messages');
@@ -358,110 +421,79 @@
             const el = document.createElement('div');
             el.className = 'guest-card';
             el.innerText = wishes[Math.floor(Math.random() * wishes.length)];
-            el.style.left = Math.random() * 70 + 15 + '%'; // Keep within screen bounds
+            el.style.left = `${Math.random() * 45 + 10}%`;
             container.appendChild(el);
-            setTimeout(() => el.remove(), 15000); // Cleanup after animation
+            setTimeout(() => el.remove(), 10000);
         }
-        setInterval(spawnMessage, 5000);
+        setInterval(spawnMessage, 4500);
 
-
-        // === Canvas Particle System (Cursor Trail & Moon Click) ===
+        // === Luxury Particle Trail Canvas ===
         const canvas = document.getElementById('cursorTrail');
         const ctx = canvas.getContext('2d');
-        let width, height;
-        
+        let w, h;
         function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            w = canvas.width = rect.width; h = canvas.height = rect.height;
         }
-        window.addEventListener('resize', resize);
-        resize();
+        window.addEventListener('resize', resize); resize();
 
         const particles = [];
-        const shapes = ['dot', 'star', 'crescent'];
-
-        class Particle {
+        class PremiumParticle {
             constructor(x, y, vx, vy) {
                 this.x = x; this.y = y;
-                this.vx = vx || (Math.random() - 0.5) * 1.5;
-                this.vy = vy || (Math.random() - 0.5) * 1.5;
-                this.size = Math.random() * 5 + 2;
-                this.life = 1;
-                this.decay = Math.random() * 0.015 + 0.01;
-                this.shape = shapes[Math.floor(Math.random() * shapes.length)];
-                this.rotation = Math.random() * Math.PI * 2;
-                this.rotSpeed = (Math.random() - 0.5) * 0.2;
-                this.color = `rgba(255, 215, 0, ${Math.random() * 0.5 + 0.5})`; // Gold hue
+                this.vx = vx || (Math.random() - 0.5) * 2;
+                this.vy = vy || (Math.random() - 0.5) * 2;
+                this.alpha = 1; this.size = Math.random() * 4 + 2;
+                this.decay = Math.random() * 0.015 + 0.015;
+                this.type = Math.random() > 0.5 ? 'star' : 'dot';
             }
-            update() {
-                this.x += this.vx; this.y += this.vy;
-                this.life -= this.decay;
-                this.rotation += this.rotSpeed;
-            }
-            draw(ctx) {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.rotation);
-                ctx.scale(this.life, this.life);
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                
-                if (this.shape === 'dot') {
-                    ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-                } else if (this.shape === 'star') {
+            update() { this.x += this.vx; this.y += this.vy; this.alpha -= this.decay; }
+            draw() {
+                ctx.save(); ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = "#C5A059"; ctx.beginPath();
+                if(this.type === 'dot') {
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+                } else {
+                    ctx.translate(this.x, this.y);
                     for (let i = 0; i < 5; i++) {
-                        ctx.lineTo(Math.cos((18 + i * 72) * Math.PI / 180) * this.size,
-                                   -Math.sin((18 + i * 72) * Math.PI / 180) * this.size);
-                        ctx.lineTo(Math.cos((54 + i * 72) * Math.PI / 180) * (this.size / 2),
-                                   -Math.sin((54 + i * 72) * Math.PI / 180) * (this.size / 2));
+                        ctx.lineTo(Math.cos((18 + i * 72) * Math.PI / 180) * this.size, -Math.sin((18 + i * 72) * Math.PI / 180) * this.size);
+                        ctx.lineTo(Math.cos((54 + i * 72) * Math.PI / 180) * (this.size/2), -Math.sin((54 + i * 72) * Math.PI / 180) * (this.size/2));
                     }
-                    ctx.closePath();
-                } else if (this.shape === 'crescent') {
-                    // Draw outer arc then reverse inner arc for crescent shape
-                    ctx.arc(0, 0, this.size, Math.PI * 0.2, Math.PI * 1.8, false);
-                    ctx.arc(this.size * 0.4, 0, this.size * 0.8, Math.PI * 1.8, Math.PI * 0.2, true);
-                    ctx.closePath();
                 }
-                ctx.fill();
-                ctx.restore();
+                ctx.fill(); ctx.restore();
             }
         }
 
-        // Spawn on mouse move
-        let lastMouse = { x: -100, y: -100 };
-        document.addEventListener('mousemove', (e) => {
-            const dx = e.clientX - lastMouse.x;
-            const dy = e.clientY - lastMouse.y;
-            if (Math.sqrt(dx*dx + dy*dy) > 10) { // Throttle spawning
-                particles.push(new Particle(e.clientX, e.clientY));
-                lastMouse = { x: e.clientX, y: e.clientY };
+        window.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            particles.push(new PremiumParticle(e.clientX - rect.left, e.clientY - rect.top));
+        });
+        window.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0){
+                const rect = canvas.getBoundingClientRect();
+                particles.push(new PremiumParticle(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top));
             }
         });
 
-        // Interactive Moon Burst
-        const interactiveMoon = document.getElementById('interactive-moon');
-        interactiveMoon.addEventListener('click', () => {
-            const rect = interactiveMoon.getBoundingClientRect();
-            const cx = rect.left + rect.width / 2;
-            const cy = rect.top + rect.height / 2;
-            for(let i = 0; i < 80; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 6 + 2;
-                particles.push(new Particle(cx, cy, Math.cos(angle)*speed, Math.sin(angle)*speed));
+        // Click Moon Blast
+        document.getElementById('interactive-moon').addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const mx = e.clientX - rect.left; const my = e.clientY - rect.top;
+            for(let i=0; i<40; i++) {
+                const a = Math.random() * Math.PI * 2; const spd = Math.random() * 5 + 2;
+                particles.push(new PremiumParticle(mx, my, Math.cos(a)*spd, Math.sin(a)*spd));
             }
         });
 
-        function animateCanvas() {
-            ctx.clearRect(0, 0, width, height);
-            for (let i = particles.length - 1; i >= 0; i--) {
-                particles[i].update();
-                particles[i].draw(ctx);
-                if (particles[i].life <= 0) particles.splice(i, 1);
+        function loop() {
+            ctx.clearRect(0,0,w,h);
+            for(let i=particles.length-1; i>=0; i--) {
+                particles[i].update(); particles[i].draw();
+                if(particles[i].alpha <= 0) particles.splice(i,1);
             }
-            requestAnimationFrame(animateCanvas);
+            requestAnimationFrame(loop);
         }
-        animateCanvas();
-
+        loop();
     </script>
 </body>
 </html>
