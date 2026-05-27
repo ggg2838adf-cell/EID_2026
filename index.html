@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Eid Mubarak - Malik Tanzilla</title>
     
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cinzel:wght@600;800;900&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
 
     <style>
@@ -277,10 +278,12 @@
 <body>
 
     <div class="phone-wrapper">
+        <!-- Canvas Engines -->
         <canvas id="fireworksCanvas"></canvas>
         <canvas id="petalsCanvas"></canvas>
         <canvas id="trailCanvas"></canvas>
 
+        <!-- AUTOMATED INTRO THEATRE -->
         <div id="intro-container">
             <div class="intro-bg-field"></div>
             <div class="sky-layer"></div>
@@ -298,8 +301,10 @@
             <div class="intro-loading-text">LOADING FOR MTJ</div>
         </div>
 
+        <!-- ROYAL CREAM MAIN ROOM -->
         <div id="main-stage">
             
+            <!-- Hanging Decorative Lanterns -->
             <div class="lantern-wrapper">
                 <svg viewBox="0 0 100 150" width="52" height="80">
                     <path d="M 35 35 Q 50 20 65 35 L 75 50 L 25 50 Z" fill="var(--gold-solid)"/>
@@ -323,8 +328,10 @@
                 <path d="M 60 15 A 38 38 0 1 0 90 45 A 30 30 0 1 1 60 15 Z" fill="url(#introGoldGrad)"/>
             </svg>
 
+            <!-- Segregated Side Streams Base Container -->
             <div id="guest-messages"></div>
 
+            <!-- Main Luxury Centerpiece -->
             <div class="centerpiece">
                 <div class="arabic-text">عيد الأضحى المبارك</div>
                 <div class="subtitle">EID-UL-ADHA</div>
@@ -451,7 +458,7 @@
                 const intro = document.getElementById('intro-container');
                 intro.classList.add('reveal-stage');
                 
-                // Firecrackers, Red Petals & Main Music Execution
+                // Firecrackers, Purple Petals & Main Music Execution
                 triggerOpeningFirecrackers();
                 startPetalRainEngine();
                 playMainStageMusic();
@@ -568,7 +575,7 @@
             });
         }
 
-        // === Falling Premium Pure Red Petals Engine ===
+        // === Falling Premium Pure Purple Petals Engine ===
         let petals = [];
         class Petal {
             constructor() {
@@ -578,8 +585,8 @@
                 this.speedX = (Math.random() - 0.5) * 0.6;
                 this.rotation = Math.random() * Math.PI;
                 this.rotSpeed = (Math.random() - 0.5) * 0.025;
-                // Deep Premium Ruby / Crimson Red tones
-                this.color = `rgba(${175 + Math.floor(Math.random() * 45)}, 20, 35, ${0.6 + Math.random() * 0.25})`;
+                // Luxury Violet / Orchid Purple tones
+                this.color = `rgba(${120 + Math.floor(Math.random() * 45)}, 45, ${180 + Math.floor(Math.random() * 50)}, ${0.55 + Math.random() * 0.25})`;
             }
             update() { this.y += this.speedY; this.x += this.speedX; this.rotation += this.rotSpeed; }
             draw() {
@@ -637,7 +644,7 @@
                 if(fwParticles[i].alpha <= 0) fwParticles.splice(i, 1);
             }
 
-            // Handle Red Petals
+            // Handle Purple Petals
             for (let i = petals.length - 1; i >= 0; i--) {
                 petals[i].update(); petals[i].draw();
                 if(petals[i].y > h + 20) petals.splice(i, 1);
